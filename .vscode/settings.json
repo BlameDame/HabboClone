@@ -1,0 +1,9 @@
+{
+    "C_Cpp.default.cStandard": "",
+    "C_Cpp.default.cppStandard": "c++17",
+    "cmake.sourceDirectory": "/home/dame/HabboClone/server",
+    "files.associations": {
+        "*.cpp": "cpp",
+        "string_view": "cpp"
+    }
+}

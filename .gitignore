@@ -1,0 +1,5 @@
+# Ignore build and temp files
+build/
+*.o
+*.log
+.env
