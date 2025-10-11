@@ -125,27 +125,38 @@ function update(time, dt) {}
 
 // -------------- WEBSOCKET REQUEST/RESPONSE machinery --------------
 function connectWebSocket() {
-  if (ws && ws.readyState === WebSocket.OPEN) return;
-  try { ws = new WebSocket(WS_URL); } catch(e) { log('WS ctor failed: ' + e.message); return; }
+  // if it's already open, just resolve immediately
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    return Promise.resolve();
+  }
 
-  ws.onopen = () => {
-    log('WebSocket connected');
-    // after connect, subscribe to current room if there is one
-    if (currentRoom && currentRoom.name) {
-      sendWS({ type: 'SUBSCRIBE_ROOM', room: currentRoom.name });
+  return new Promise((resolve, reject) => {
+    try {
+      ws = new WebSocket(WS_URL);
+    } catch (e) {
+      log('WS ctor failed: ' + e.message);
+      return reject(e);
     }
-  };
 
-  ws.onmessage = ev => {
-    // dispatch JSON messages
-    let msg = null;
-    try { msg = JSON.parse(ev.data); } catch (e) { log('Non-json WS: ' + ev.data); return; }
-    handleWSMessage(msg);
-  };
+    ws.onopen = () => {
+      log('WebSocket connected');
+      if (currentRoom && currentRoom.name) {
+        sendWS({ type: 'SUBSCRIBE_ROOM', room: currentRoom.name });
+      }
+      resolve();
+    };
 
-  ws.onclose = () => log('WebSocket closed');
-  ws.onerror = e => log('WebSocket error');
+    ws.onmessage = ev => {
+      let msg = null;
+      try { msg = JSON.parse(ev.data); } catch (e) { log('Non-json WS: ' + ev.data); return; }
+      handleWSMessage(msg);
+    };
+
+    ws.onclose = () => log('WebSocket closed');
+    ws.onerror = e => log('WebSocket error');
+  });
 }
+
 
 // simple send (no reqId)
 function sendWS(obj) {
@@ -157,11 +168,9 @@ function sendWS(obj) {
 }
 
 // requestWS returns Promise that resolves when server replies with same reqId
-function requestWS(obj, timeoutMs = 5000) {
-  if (!ws || ws.readyState !== WebSocket.OPEN) {
-    // connect then wait
-    connectWebSocket();
-  }
+async function requestWS(obj, timeoutMs = 5000) {
+  await connectWebSocket(); // <-- ensure it’s open before continuing
+
   return new Promise((resolve, reject) => {
     const reqId = generateUID();
     obj.reqId = reqId;
@@ -176,16 +185,15 @@ function requestWS(obj, timeoutMs = 5000) {
     }
 
     ws.addEventListener('message', listener);
-    // send after scheduling the listener
-    sendWS(obj);
+    ws.send(JSON.stringify(obj)); // safe now
 
-    // simple timeout
     setTimeout(() => {
       try { ws.removeEventListener('message', listener); } catch (e) {}
       reject(new Error('request timed out'));
     }, timeoutMs);
   });
 }
+
 
 // -------------- ROOM UI --------------
 function populateRoomButtons(roomTemplates) {

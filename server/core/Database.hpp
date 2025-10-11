@@ -5,7 +5,7 @@
 #include <unordered_set>
 #include <vector>
 #include <iostream>
-#include "bcrypt/bcrypt.h"
+#include "bcrypt.h"
 
 using namespace std;
 

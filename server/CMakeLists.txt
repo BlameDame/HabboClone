@@ -35,7 +35,7 @@ endif()
 
 # Bcrypt
 set(BCRYPT_DIR "${CMAKE_SOURCE_DIR}/../third_party/bcrypt")
-set(BCRYPT_INCLUDE_DIR "${BCRYPT_DIR}/include/bcrypt")
+set(BCRYPT_INCLUDE_DIR "${BCRYPT_DIR}/include")
 set(BCRYPT_SRC
     "${BCRYPT_DIR}/src/bcrypt.cpp"
     "${BCRYPT_DIR}/src/blowfish.cpp"
