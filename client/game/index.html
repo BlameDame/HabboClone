@@ -4,27 +4,7 @@
   <meta charset="utf-8" />
   <title>Habbo-ish Phaser Isometric Prototype</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body { margin: 0; font-family: system-ui, Arial; background: #222; color: #eee; }
-    #ui {
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      z-index: 50;
-      background: rgba(0,0,0,0.5);
-      padding: 10px;
-      border-radius: 6px;
-      width: 220px;
-    }
-    #ui h3 { margin: 4px 0 8px 0; font-size: 14px; color: #fff; }
-    .btn { display:block; margin:6px 0; padding:6px 8px; border-radius:4px; background:#167; color:#fff; cursor:pointer; text-align:center; }
-    .btn.secondary { background:#444; }
-    #furniture-list { margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; }
-    .f-item { width:48px; height:48px; background:#5b3; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:grab; color:#033; font-weight:700; }
-    #log { margin-top:8px; font-size:12px; color:#ddd; max-height:140px; overflow:auto; }
-    #game-container { position: absolute; right: 0; left: 260px; top: 0; bottom: 0; }
-    @media (max-width:900px){ #game-container{ left:0 } #ui{ position:relative; width:100%; } }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div id="ui">
@@ -38,17 +18,80 @@
       <!-- furniture items created by script -->
     </div>
 
-    <div style="margin-top:8px">
+    <!-- <div style="margin-top:8px">
       <div class="btn secondary" id="btn-fetch">Fetch Room / Sync</div>
       <div class="btn" id="btn-center">Center Camera</div>
-    </div>
+    </div> -->
 
     <div id="log"></div>
   </div>
 
   <div id="game-container"></div>
 
+  <!-- bottom UI bar -->
+  <div id="bottom-ui">
+  <div id="chat-bar">
+    <input type="text" id="chat-input" placeholder="Say something..." />
+    <button id="btn-send-chat">Send</button>
+  </div>
+  <div class="btn" id="btn-friends">Friends</div>
+  <div class="btn" id="btn-pm">PM</div>
+  <div class="btn" id="btn-room">Room</div>
+</div>
+
+
+<!-- bottom pop-up windows -->
+<div id="friends-window" class="window hidden">
+  <h3>Friends</h3>
+  <ul id="friends-list">
+    <li>DameGuwap (Online)</li>
+    <li>RetroFan99 (Offline)</li>
+  </ul>
+</div>
+
+<div id="pm-window" class="window hidden">
+  <h3>Private Messages</h3>
+  <div id="pm-messages" class="scroll-area">
+    <p><strong>RetroFan99:</strong> Yo, you online?</p>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="pm-input" placeholder="Send a private message..." />
+    <button id="btn-send-pm">Send</button>
+  </div>
+</div>
+
+<div id="room-window" class="window hidden">
+  <h3>Room Info</h3>
+  <p><strong>Name:</strong> Sample Room</p>
+  <p><strong>Owner:</strong> DameGuwap</p>
+  <p><strong>Visitors:</strong> 3/25</p>
+  <button id="btn-edit-room" class="btn secondary">Edit Room</button>
+</div>
+
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+  <script>
+    // bottom UI script
+    function initBottomUI() {
+      const btnChat = document.getElementById('btn-chat');
+      const btnFriends = document.getElementById('btn-friends');
+      const btnPM = document.getElementById('btn-pm');
+      const btnRoom = document.getElementById('btn-room');
+
+      if (btnChat) btnChat.onclick = () => toggleSection('chat-window');
+      if (btnFriends) btnFriends.onclick = () => toggleSection('friends-window');
+      if (btnPM) btnPM.onclick = () => toggleSection('pm-window');
+      if (btnRoom) btnRoom.onclick = () => toggleSection('room-window');
+    }
+
+    function toggleSection(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.toggle('hidden');
+      el.classList.toggle('visible');
+    }
+
+    window.onload = initBottomUI;
+  </script>
   <script src="main.js"></script>
 </body>
 </html>

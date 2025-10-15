@@ -11,6 +11,8 @@ const GLOBAL = {
 const WS_URL = "ws://localhost:9001"; // your server
 let sceneRef = null;
 let ws = null;
+const players = {}; // username -> sprite container
+let currentPlayer = null;
 let currentRoom = null; // { id, name, rows, cols, shape, furniture: [] }
 const furnitureGameObjects = {};
 let _uidCounter = 1;
@@ -43,8 +45,122 @@ function initBottomUI() {
 function toggleSection(id) {
   const el = document.getElementById(id);
   if (!el) return;
-  el.classList.toggle('hidden');
+
+  const isVisible = el.classList.contains('visible');
+  // Hide all windows before showing the one clicked
+  document.querySelectorAll('.window').forEach(w => {
+    w.classList.remove('visible');
+    w.classList.add('hidden');
+  });
+
+  // If it wasn't visible, show it
+  if (!isVisible) {
+    el.classList.remove('hidden');
+    el.classList.add('visible');
+  }
 }
+  // chat system
+function initChatSystem() {
+  const input = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('btn-send-chat');
+
+  if (!input || !sendBtn) return;
+
+  sendBtn.onclick = sendChatMessage;
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendChatMessage();
+  });
+}
+
+function sendChatMessage() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  // For now, display as a floating text near player (mock)
+  showChatBubble(msg, { x: window.innerWidth / 2, y: window.innerHeight / 2 });
+  ws.send(msg);
+
+  input.value = '';
+}
+
+function showChatBubble(text, pos) {
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble';
+  bubble.textContent = text;
+  document.body.appendChild(bubble);
+
+  bubble.style.left = pos.x + 'px';
+  bubble.style.top = (pos.y - 50) + 'px';
+
+  setTimeout(() => {
+    bubble.remove();
+  }, 4000);
+}
+
+function displayPlainChatMessage(raw) {
+  // expected format: "username: message"
+  const splitIdx = raw.indexOf(':');
+  let username = 'Someone';
+  let message = raw;
+
+  if (splitIdx !== -1) {
+    username = raw.substring(0, splitIdx).trim();
+    message = raw.substring(splitIdx + 1).trim();
+  }
+
+  const pos = getPlayerScreenPos(username);
+  showChatBubble(`${username}: ${message}`, pos);
+}
+
+function getPlayerScreenPos(username) {
+  // For now, center on screen or mock logic
+  return { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+}
+
+function spawnPlayer(username, tx, ty) {
+  if (!sceneRef) return;
+  if (players[username]) return; // already exists
+
+  const s = tileToScreen(tx, ty);
+
+  const sprite = sceneRef.add.sprite(s.x, s.y - 16, 'avatar_walk_right', 0);
+  sprite.setOrigin(0.5, 1);
+  sprite.setScale(2);
+  sprite.setDepth(4)
+  sprite.tx = tx;
+  sprite.ty = ty;
+  players[username] = sprite;
+
+  if (username === "You") currentPlayer = sprite;
+}
+
+function removePlayer(username) {
+  if (players[username]) {
+    players[username].destroy();
+    delete players[username];
+  }
+}
+
+function movePlayer(username, tx, ty) {
+  const sprite = players[username];
+  if (!sprite) return;
+
+  const s = tileToScreen(tx, ty);
+sceneRef.tweens.add({
+  targets: sprite,
+  x: s.x,
+  y: s.y - 16,
+  duration: 400,
+  onStart: () => sprite.play('walk', true),
+  onComplete: () => sprite.stop().setFrame(0)
+});
+
+
+  sprite.tx = tx;
+  sprite.ty = ty;
+}
+
+
 
 // -------------- PHASER CONFIG --------------
 const phaserConfig = {
@@ -77,25 +193,30 @@ function screenToTile(screenX, screenY) {
 }
 
 // -------------- PHASER SCENE --------------
-function preload() {}
+function preload() {
+  this.load.spritesheet('avatar_walk_right', 'assets/avatar/avatar_walk_right.png', {
+  frameWidth: 64,   // adjust to match your sprite’s frame width
+  frameHeight: 64   // adjust to match height
+});
+}
 
 async function create() {
   sceneRef = this;
   window.gameScene = this;
 
   initBottomUI();
+  initChatSystem();
 
   // ensure websocket
   connectWebSocket();
+
 
   // request room templates over WS
   try {
     const templates = await requestWS({ type: 'GET_ROOM_TEMPLATES' });
     populateRoomButtons(templates || []);
     if (templates && templates.length > 0) {
-      // prefer a "Lobby" if available, otherwise first template
-      const lobby = templates.find(t => t.name === "Lobby") || templates[0];
-      if (lobby) loadRoomTemplate(lobby.id);
+      loadRoomTemplate(templates[2].id);
     }
   } catch (e) {
     log('Failed to load room templates: ' + e);
@@ -105,12 +226,22 @@ async function create() {
   this.cameras.main.setZoom(1);
   this.cameras.main.centerToBounds();
 
+    sceneRef.anims.create({
+  key: 'walk',
+  frames: sceneRef.anims.generateFrameNumbers('avatar_walk_right', { start: 0, end: 4 }),
+  frameRate: 6,
+  repeat: -1
+});
+
+
+
   // pointer handling
   this.input.on('pointerdown', pointer => {
     const p = pointer.positionToCamera(this.cameras.main);
     const { tx, ty } = screenToTile(p.x, p.y);
     if (currentRoom && insideRoom(tx, ty)) {
       log(`Clicked tile ${tx},${ty}`);
+      movePlayer("You", tx, ty);
       sendWS({ type: 'TILE_CLICK', room: currentRoom.name, tx, ty });
     }
   });
@@ -120,6 +251,27 @@ async function create() {
     this.scale.resize(window.innerWidth - 260, window.innerHeight);
   });
 }
+
+async function joinRoom(roomName) {
+  if (!ws || ws.readyState !== WebSocket.OPEN) {
+    log('WebSocket not connected yet');
+    return;
+  }
+
+  // Send join command to server
+  ws.send(`/join ${roomName}`);
+
+  // Set currentRoom so client UI knows where we are
+  currentRoom = {
+    name: roomName,
+    furniture: [],
+    rows: 10, // default values until server sends ROOM_STATE
+    cols: 10
+  };
+
+  drawRoom(); // draw empty room until server fills it
+}
+
 
 function update(time, dt) {}
 
@@ -140,6 +292,11 @@ function connectWebSocket() {
 
     ws.onopen = () => {
       log('WebSocket connected');
+      // ws.send("/join Lobby"); // also join for chat
+      spawnPlayer("You", 3, 7);
+
+      joinRoom("Lobby");
+
       if (currentRoom && currentRoom.name) {
         sendWS({ type: 'SUBSCRIBE_ROOM', room: currentRoom.name });
       }
@@ -147,10 +304,26 @@ function connectWebSocket() {
     };
 
     ws.onmessage = ev => {
-      let msg = null;
-      try { msg = JSON.parse(ev.data); } catch (e) { log('Non-json WS: ' + ev.data); return; }
-      handleWSMessage(msg);
-    };
+  try {
+    const msg = JSON.parse(ev.data);
+    handleWSMessage(msg);
+  } catch (e) {
+    // Non-JSON = simple room chat message
+    const raw = ev.data.trim();
+    if (!raw) return;
+    if (raw.startsWith('❌') || raw.startsWith('✅') || raw.startsWith('⚠️')) {
+      log(raw);
+      return;
+    }
+    if (raw.startsWith('')) {
+      log(raw);
+      return;
+    }
+    log(raw)
+    displayPlainChatMessage(raw);
+  }
+};
+
 
     ws.onclose = () => log('WebSocket closed');
     ws.onerror = e => log('WebSocket error');
@@ -208,51 +381,72 @@ function populateRoomButtons(roomTemplates) {
 }
 
 // -------------- ROOM MANAGEMENT --------------
+// ---------------- LOAD ROOM TEMPLATE ----------------
 async function loadRoomTemplate(roomId) {
   try {
     const tpl = await requestWS({ type: 'GET_ROOM_TEMPLATE', templateId: roomId });
-    if (!tpl) { log('Template not returned'); return; }
-    // server returns data object wrapped as payload.data in our requestWS contract; sometimes it's already
-    const data = tpl; // the helper expects the server to return { reqId, data: {...} } -> requestWS returns data
-    const layoutJson = data.default_layout_json ? JSON.parse(data.default_layout_json || "{}") : {};
+    if (!tpl) {
+      log('Template not returned');
+      return;
+    }
+
+    // Parse the default_layout_json from the DB (if any)
+    let layout = null;
+    if (tpl.default_layout_json) {
+      try {
+        layout = JSON.parse(tpl.default_layout_json);
+      } catch (err) {
+        console.warn("Invalid layout JSON for room:", tpl.name, err);
+      }
+    }
+
     currentRoom = {
-      id: data.id,
-      name: data.name,
-      rows: layoutJson.rows || (data.height || 10),
-      cols: layoutJson.cols || (data.width || 10),
-      shape: layoutJson.shape || 'rect',
-      furniture: []
+      id: tpl.id,
+      name: tpl.name,
+      cols: tpl.width || 10,
+      rows: tpl.height || 10,
+      skew_angle: tpl.skew_angle || 30,
+      furniture: [],
+      layout: layout, // attach layout (could be null)
     };
 
+    // Initialize global rendering constants
     GLOBAL.tileW = 64;
     GLOBAL.tileH = 32;
     GLOBAL.originX = (game.scale.width / 2) - (GLOBAL.tileW / 2);
     GLOBAL.originY = 50;
 
-    // fetch furniture via WS
+    // Fetch any furniture associated with this room
     const furniture = await requestWS({ type: 'GET_ROOM_FURNITURE', roomId: currentRoom.id });
     currentRoom.furniture = furniture || [];
 
     drawRoom();
     log(`Loaded room template "${currentRoom.name}" (${currentRoom.cols}x${currentRoom.rows})`);
 
-    // subscribe to server-sent updates for this room
-    sendWS({ type: 'SUBSCRIBE_ROOM', room: currentRoom.name });
-
   } catch (e) {
     log('Failed to load room template: ' + e);
   }
 
+  // Ensure WebSocket connection
   if (!ws || ws.readyState !== WebSocket.OPEN) connectWebSocket();
 }
 
 function insideRoom(tx, ty) {
   if (!currentRoom) return false;
-  if (currentRoom.shape === 'L') {
-    if (tx >= Math.ceil(currentRoom.cols/2) && ty >= Math.ceil(currentRoom.rows/2)) return false;
+
+  // If layout JSON exists, use it to determine valid tiles
+    if (currentRoom.layout && currentRoom.layout.tiles) {
+    const layout = currentRoom.layout.tiles;
+    if (ty < 0 || ty >= layout.length) return false;
+    if (tx < 0 || tx >= layout[ty].length) return false;
+    return layout[ty][tx] === 1;
   }
-  return tx >=0 && ty >=0 && tx < currentRoom.cols && ty < currentRoom.rows;
+
+
+  // Fallback for rectangular rooms
+  return tx >= 0 && ty >= 0 && tx < currentRoom.cols && ty < currentRoom.rows;
 }
+
 
 // -------------- DRAW ROOM --------------
 function drawRoom() {
@@ -288,6 +482,7 @@ function drawIsoTile(scene, cx, cy, w, h, color=0x8B4513) {
   g.fillPath();
   g.lineStyle(1,0x000000,0.3);
   g.strokePath();
+  g.setDepth(0);
   scene.roomLayer.add(g);
 }
 
@@ -333,7 +528,12 @@ function createFurnitureGO(scene, f) {
   scene.input.setDraggable(container);
 
   container.on('drag', (pointer, dragX, dragY) => {
-    container.x = dragX; container.y = dragY;
+    // container.x = dragX; container.y = dragY;
+    const { tx, ty } = screenToTile(dragX, dragY + GLOBAL.tileH/4);
+    if (insideRoom(tx, ty)) {
+      const s2 = tileToScreen(tx, ty);
+      container.x = s2.x; container.y = s2.y-(GLOBAL.tileH/2)*0.2;
+    }
   });
 
   container.on('dragend', () => {
@@ -454,11 +654,10 @@ function handleWSMessage(msg) {
     default:
       // other messages (create/update responses) are ignored here (requestWS resolves them)
       // But we log for debugging:
-      // console.log('WS message unknown:', msg);
+      log(typeof raw === 'string' ? raw : JSON.stringify(raw));
       break;
   }
 }
 
 // export spawn
 window.spawnFurnitureFromUI = spawnFurnitureFromUI;
-

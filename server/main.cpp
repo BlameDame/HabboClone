@@ -513,15 +513,27 @@ int main() {
                         ws->send("❌ Unknown command", opCode);
                     }
                 } else { // ROOM CHAT //
+                    // Simple chat message to current room
                     std::string room = ws->getUserData()->currentRoomName;
+                    int roomId = db.getPublicRoomIdByName(room);
+                    std::string username = ws->getUserData()->username;
+
                     if (!room.empty()) {
-                        for (auto client : rooms[room])
-                            if (client != ws)
-                                client->send(ws->getUserData()->username + ": " + msg, opCode);
+                        int room_id = db.getPublicRoomIdByName(room); // you likely already have this or a similar function
+                        if (room_id != -1) {
+                            db.insertChatMessage(room_id, username, msg);
+                        }
+                    
+                        for (auto client : rooms[room]) {
+                            if (client != ws) {
+                                client->send(username + ": " + msg, opCode);
+                            }
+                        }
                     } else {
                         ws->send("❌ You are not in a room. Use /join <room_name> [pin]", opCode);
                     }
                 }
+
             },
 
             // ----------------------

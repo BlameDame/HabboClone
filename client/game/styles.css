@@ -1,0 +1,229 @@
+body {
+      margin: 0;
+      font-family: system-ui, Arial;
+      background: #222;
+      color: #eee;
+    }
+
+    #ui {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 50;
+      background: rgba(0,0,0,0.5);
+      padding: 10px;
+      border-radius: 6px;
+      width: 220px;
+    }
+
+    #ui h3 {
+      margin: 4px 0 8px 0;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .btn {
+      display: block;
+      margin: 6px 0;
+      padding: 6px 8px;
+      border-radius: 4px;
+      background: #167;
+      color: #fff;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn.secondary {
+      background: #444;
+    }
+
+    #furniture-list {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .f-item {
+      width: 48px;
+      height: 48px;
+      background: #5b3;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      color: #033;
+      font-weight: 700;
+    }
+
+    #log {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #ddd;
+      max-height: 140px;
+      overflow: auto;
+    }
+
+    #game-container {
+      position: absolute;
+      right: 0;
+      left: 260px;
+      top: 0;
+      bottom: 60px; /* Leave space for bottom bar */
+    }
+
+    #bottom-ui {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      z-index: 60;
+    }
+
+    #bottom-ui .btn {
+      width: 100px;
+      background: #167;
+      text-align: center;
+      border-radius: 6px;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+
+.window {
+  position: fixed;
+  bottom: 80px; /* just above the bottom UI bar */
+  right: 20px;
+  width: 300px;
+  height: 200px;
+  background: rgba(30, 30, 30, 0.9);
+  border: 1px solid #555;
+  border-radius: 8px;
+  color: #fff;
+  padding: 10px;
+  z-index: 9999; /* ensure it’s above the game canvas */
+  display: none; /* hidden by default */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+/* When toggled visible */
+.window.visible {
+  display: block;
+  animation: fadeInUp 0.3s ease;
+}
+
+/* Simple slide-up + fade animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+ .window.hidden {
+      display: none;
+    }
+
+h3 {
+  margin-top: 0;
+}
+
+.scroll-area {
+  max-height: 150px;
+  overflow-y: auto;
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+  padding: 6px;
+  margin-bottom: 8px;
+}
+
+#chat-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.05);
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+#chat-input {
+  width: 240px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  background: #333;
+  color: #eee;
+  font-size: 14px;
+}
+
+#btn-send-chat {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #167;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#btn-send-chat:hover {
+  background: #1a89aa;
+}
+
+.chat-bubble {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 14px;
+  max-width: 200px;
+  text-align: center;
+  color: black;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  animation: fadeUp 4s ease forwards;
+}
+
+@keyframes fadeUp {
+  0% { opacity: 1; transform: translate(-50%, -100%) scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -180%) scale(0.95); }
+}
+
+
+
+#friends-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#friends-list li {
+  background: rgba(255,255,255,0.05);
+  padding: 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+
+
+
+    @media (max-width: 900px) {
+      #game-container {
+        left: 0;
+      }
+      #ui {
+        position: relative;
+        width: 100%;
+      }
+    }

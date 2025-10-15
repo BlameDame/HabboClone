@@ -508,6 +508,25 @@ optional<RoomTemplate> getRoomTemplateById(int templateId) {
         return items;
     }
 
+    // ----------------------
+    // Chat messages
+    // ----------------------
+    void insertChatMessage(int room_id, const std::string& username, const std::string& message) {
+        try {
+            pqxx::work W(*conn);
+            W.exec_params(
+                "INSERT INTO room_chat (room_id, username, message) VALUES ($1, $2, $3);",
+                room_id, username, message
+            );
+            W.commit();
+        } catch (const exception &e) {
+            cerr << "DB error (insertChatMessage): " << e.what() << endl;
+        }
+    }
+
+
+
+
 private:
     pqxx::connection* conn;
 };
