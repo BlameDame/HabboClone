@@ -1,0 +1,1825 @@
+{
+  "110": {
+    "sprite": "furniture/110.png",
+    "pixelWidth": 9,
+    "pixelHeight": 10,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "135": {
+    "sprite": "furniture/135.png",
+    "pixelWidth": 14,
+    "pixelHeight": 9,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "136": {
+    "sprite": "furniture/136.png",
+    "pixelWidth": 14,
+    "pixelHeight": 9,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "137": {
+    "sprite": "furniture/137.png",
+    "pixelWidth": 22,
+    "pixelHeight": 13,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "138": {
+    "sprite": "furniture/138.png",
+    "pixelWidth": 22,
+    "pixelHeight": 13,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "53": {
+    "sprite": "furniture/53.png",
+    "pixelWidth": 26,
+    "pixelHeight": 33,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "54": {
+    "sprite": "furniture/54.png",
+    "pixelWidth": 26,
+    "pixelHeight": 33,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "95": {
+    "sprite": "furniture/95.png",
+    "pixelWidth": 7,
+    "pixelHeight": 8,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "96": {
+    "sprite": "furniture/96.png",
+    "pixelWidth": 7,
+    "pixelHeight": 8,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "all_furniture": {
+    "sprite": "furniture/all_furniture.png",
+    "pixelWidth": 576,
+    "pixelHeight": 800,
+    "tileWidth": 18,
+    "tileHeight": 25,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bbed_double_w_purp_sheets_2": {
+    "sprite": "furniture/Bbed_double_w_purp_sheets_2.png",
+    "pixelWidth": 36,
+    "pixelHeight": 33,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bbed_double_w_purp_sheets_": {
+    "sprite": "furniture/Bbed_double_w_purp_sheets_.png",
+    "pixelWidth": 36,
+    "pixelHeight": 33,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bbed_w_purp_sheets_1": {
+    "sprite": "furniture/Bbed_w_purp_sheets_1.png",
+    "pixelWidth": 30,
+    "pixelHeight": 30,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bbed_w_purp_sheets_2": {
+    "sprite": "furniture/Bbed_w_purp_sheets_2.png",
+    "pixelWidth": 30,
+    "pixelHeight": 30,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_bench_2high_1": {
+    "sprite": "furniture/B_bench_2high_1.png",
+    "pixelWidth": 16,
+    "pixelHeight": 16,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_bench_2high_2": {
+    "sprite": "furniture/B_bench_2high_2.png",
+    "pixelWidth": 16,
+    "pixelHeight": 16,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bbookshelf_1": {
+    "sprite": "furniture/Bbookshelf_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 37,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bbookshelf_2": {
+    "sprite": "furniture/Bbookshelf_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 37,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bbunk_bed_1": {
+    "sprite": "furniture/Bbunk_bed_1.png",
+    "pixelWidth": 32,
+    "pixelHeight": 46,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bbunk_bed_2": {
+    "sprite": "furniture/Bbunk_bed_2.png",
+    "pixelWidth": 32,
+    "pixelHeight": 46,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_chair_long_1": {
+    "sprite": "furniture/B_chair_long_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 35,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_chair_long_2": {
+    "sprite": "furniture/B_chair_long_2.png",
+    "pixelWidth": 18,
+    "pixelHeight": 35,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bcloset_1door_w_mirror_1": {
+    "sprite": "furniture/Bcloset_1door_w_mirror_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 38,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bcloset_1door_w_mirror_2": {
+    "sprite": "furniture/Bcloset_1door_w_mirror_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 38,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bcloset_2door_2above_1": {
+    "sprite": "furniture/Bcloset_2door_2above_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 37,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bcloset_2door_2above_2": {
+    "sprite": "furniture/Bcloset_2door_2above_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 37,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bcloset_2door_2sides_1": {
+    "sprite": "furniture/Bcloset_2door_2sides_1.png",
+    "pixelWidth": 42,
+    "pixelHeight": 45,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bcloset_2door_2sides_2": {
+    "sprite": "furniture/Bcloset_2door_2sides_2.png",
+    "pixelWidth": 42,
+    "pixelHeight": 45,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_closet_2side_1top_1": {
+    "sprite": "furniture/B_closet_2side_1top_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 25,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_closet_2side_1top_2": {
+    "sprite": "furniture/B_closet_2side_1top_2.png",
+    "pixelWidth": 18,
+    "pixelHeight": 25,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_cubby_single_1": {
+    "sprite": "furniture/B_cubby_single_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 17,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_cubby_single_2": {
+    "sprite": "furniture/B_cubby_single_2.png",
+    "pixelWidth": 18,
+    "pixelHeight": 17,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_garbage_1": {
+    "sprite": "furniture/B_garbage_1.png",
+    "pixelWidth": 34,
+    "pixelHeight": 26,
+    "tileWidth": 2,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "BGsingle_chair_1": {
+    "sprite": "furniture/BGsingle_chair_1.png",
+    "pixelWidth": 22,
+    "pixelHeight": 28,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "BGsingle_chair_2": {
+    "sprite": "furniture/BGsingle_chair_2.png",
+    "pixelWidth": 22,
+    "pixelHeight": 28,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bl_tv_1": {
+    "sprite": "furniture/Bl_tv_1.png",
+    "pixelWidth": 20,
+    "pixelHeight": 25,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bl_tv_2": {
+    "sprite": "furniture/Bl_tv_2.png",
+    "pixelWidth": 20,
+    "pixelHeight": 25,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_cabinet_1draw_1": {
+    "sprite": "furniture/Blu_cabinet_1draw_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 17,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_cabinet_1draw_2": {
+    "sprite": "furniture/Blu_cabinet_1draw_2.png",
+    "pixelWidth": 18,
+    "pixelHeight": 17,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_cabinet_1draw_3": {
+    "sprite": "furniture/Blu_cabinet_1draw_3.png",
+    "pixelWidth": 18,
+    "pixelHeight": 17,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_cabinet_1draw_4": {
+    "sprite": "furniture/Blu_cabinet_1draw_4.png",
+    "pixelWidth": 18,
+    "pixelHeight": 17,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_cabinet_1draw_5": {
+    "sprite": "furniture/Blu_cabinet_1draw_5.png",
+    "pixelWidth": 18,
+    "pixelHeight": 17,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_cabinet_1draw_6": {
+    "sprite": "furniture/Blu_cabinet_1draw_6.png",
+    "pixelWidth": 18,
+    "pixelHeight": 17,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_cabinet_2draw_1": {
+    "sprite": "furniture/Blu_cabinet_2draw_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 21,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_cabinet_2draw_2": {
+    "sprite": "furniture/Blu_cabinet_2draw_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 21,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_cabinet_2draw_3": {
+    "sprite": "furniture/Blu_cabinet_2draw_3.png",
+    "pixelWidth": 28,
+    "pixelHeight": 22,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_cabinet_2draw_4": {
+    "sprite": "furniture/Blu_cabinet_2draw_4.png",
+    "pixelWidth": 28,
+    "pixelHeight": 22,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_cabinet_6draw_1": {
+    "sprite": "furniture/Blu_cabinet_6draw_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 21,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_cabinet_6draw_2": {
+    "sprite": "furniture/Blu_cabinet_6draw_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 21,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_dresser_2draws_1": {
+    "sprite": "furniture/Blu_dresser_2draws_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 23,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Blu_dresser_2draws_2": {
+    "sprite": "furniture/Blu_dresser_2draws_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 23,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_nightstand_1draw_1": {
+    "sprite": "furniture/B_nightstand_1draw_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 17,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_nightstand_1draw_2": {
+    "sprite": "furniture/B_nightstand_1draw_2.png",
+    "pixelWidth": 18,
+    "pixelHeight": 17,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bnightstand_2door_1": {
+    "sprite": "furniture/Bnightstand_2door_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 29,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bnightstand_2door_2": {
+    "sprite": "furniture/Bnightstand_2door_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 29,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_park_bench_1": {
+    "sprite": "furniture/B_park_bench_1.png",
+    "pixelWidth": 24,
+    "pixelHeight": 16,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_park_bench_2": {
+    "sprite": "furniture/B_park_bench_2.png",
+    "pixelWidth": 24,
+    "pixelHeight": 16,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "br_gr_couch_1": {
+    "sprite": "furniture/br_gr_couch_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 27,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "br_gr_couch_2": {
+    "sprite": "furniture/br_gr_couch_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 27,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "br_gr_couch_3": {
+    "sprite": "furniture/br_gr_couch_3.png",
+    "pixelWidth": 26,
+    "pixelHeight": 29,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "br_gr_couch_4": {
+    "sprite": "furniture/br_gr_couch_4.png",
+    "pixelWidth": 26,
+    "pixelHeight": 29,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_shelf_1stroage_1": {
+    "sprite": "furniture/B_shelf_1stroage_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 21,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_shelf_1stroage_2": {
+    "sprite": "furniture/B_shelf_1stroage_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 21,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_shelf_2layer_1": {
+    "sprite": "furniture/B_shelf_2layer_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 23,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_shelf_2layer_2": {
+    "sprite": "furniture/B_shelf_2layer_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 23,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bshelf_3_layer_1": {
+    "sprite": "furniture/Bshelf_3_layer_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 33,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bshelf_3_layer_2": {
+    "sprite": "furniture/Bshelf_3_layer_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 33,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_shelf_4layer_1": {
+    "sprite": "furniture/B_shelf_4layer_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 39,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_shelf_4layer_2": {
+    "sprite": "furniture/B_shelf_4layer_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 39,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bsingle_chair_1": {
+    "sprite": "furniture/Bsingle_chair_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 25,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bsingle_chair_2": {
+    "sprite": "furniture/Bsingle_chair_2.png",
+    "pixelWidth": 18,
+    "pixelHeight": 22,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bsingle_chair_3": {
+    "sprite": "furniture/Bsingle_chair_3.png",
+    "pixelWidth": 18,
+    "pixelHeight": 25,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bsingle_chair_4": {
+    "sprite": "furniture/Bsingle_chair_4.png",
+    "pixelWidth": 18,
+    "pixelHeight": 22,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bsingle_chair_w_hole_1": {
+    "sprite": "furniture/Bsingle_chair_w_hole_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 25,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bsingle_chair_w_hole_2": {
+    "sprite": "furniture/Bsingle_chair_w_hole_2.png",
+    "pixelWidth": 18,
+    "pixelHeight": 25,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_singleStorage_3layer_1": {
+    "sprite": "furniture/B_singleStorage_3layer_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 33,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_singleStorage_3layer_2": {
+    "sprite": "furniture/B_singleStorage_3layer_2.png",
+    "pixelWidth": 18,
+    "pixelHeight": 33,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bstand_circle_1": {
+    "sprite": "furniture/Bstand_circle_1.png",
+    "pixelWidth": 17,
+    "pixelHeight": 17,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bstand_square_1": {
+    "sprite": "furniture/Bstand_square_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 18,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bstool_1": {
+    "sprite": "furniture/Bstool_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 22,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Bstool_2": {
+    "sprite": "furniture/Bstool_2.png",
+    "pixelWidth": 15,
+    "pixelHeight": 16,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_swing_chair_2seat_1": {
+    "sprite": "furniture/B_swing_chair_2seat_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 37,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_swing_chair_2seat_2": {
+    "sprite": "furniture/B_swing_chair_2seat_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 37,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_table_long_1": {
+    "sprite": "furniture/B_table_long_1.png",
+    "pixelWidth": 42,
+    "pixelHeight": 29,
+    "tileWidth": 2,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_table_long_2": {
+    "sprite": "furniture/B_table_long_2.png",
+    "pixelWidth": 42,
+    "pixelHeight": 29,
+    "tileWidth": 2,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_table_small_1": {
+    "sprite": "furniture/B_table_small_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 17,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_table_wide_1": {
+    "sprite": "furniture/B_table_wide_1.png",
+    "pixelWidth": 34,
+    "pixelHeight": 25,
+    "tileWidth": 2,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Burners_1": {
+    "sprite": "furniture/Burners_1.png",
+    "pixelWidth": 22,
+    "pixelHeight": 13,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Burners_2": {
+    "sprite": "furniture/Burners_2.png",
+    "pixelWidth": 22,
+    "pixelHeight": 13,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_window_1pane_1": {
+    "sprite": "furniture/B_window_1pane_1.png",
+    "pixelWidth": 12,
+    "pixelHeight": 22,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_window_1pane_2": {
+    "sprite": "furniture/B_window_1pane_2.png",
+    "pixelWidth": 12,
+    "pixelHeight": 22,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_window_24panes_1": {
+    "sprite": "furniture/B_window_24panes_1.png",
+    "pixelWidth": 20,
+    "pixelHeight": 34,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_window_24panes_2": {
+    "sprite": "furniture/B_window_24panes_2.png",
+    "pixelWidth": 20,
+    "pixelHeight": 34,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_window_6panes_1": {
+    "sprite": "furniture/B_window_6panes_1.png",
+    "pixelWidth": 20,
+    "pixelHeight": 34,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_window_6panes_2": {
+    "sprite": "furniture/B_window_6panes_2.png",
+    "pixelWidth": 20,
+    "pixelHeight": 34,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_workbench_w_1storage_above_2": {
+    "sprite": "furniture/B_workbench_w_1storage_above_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 21,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_workbench_w_1storage_side_1": {
+    "sprite": "furniture/B_workbench_w_1storage_side_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 21,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_workbench_w_2storage_above_1": {
+    "sprite": "furniture/B_workbench_w_2storage_above_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 37,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_workbench_w_2storage_above_2": {
+    "sprite": "furniture/B_workbench_w_2storage_above_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 37,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_work_desk_1": {
+    "sprite": "furniture/B_work_desk_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 21,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "B_work_desk_2": {
+    "sprite": "furniture/B_work_desk_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 21,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "couch1": {
+    "sprite": "furniture/couch1.png",
+    "pixelWidth": 37,
+    "pixelHeight": 32,
+    "tileWidth": 2,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "couch2": {
+    "sprite": "furniture/couch2.png",
+    "pixelWidth": 37,
+    "pixelHeight": 32,
+    "tileWidth": 2,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "couch3": {
+    "sprite": "furniture/couch3.png",
+    "pixelWidth": 42,
+    "pixelHeight": 31,
+    "tileWidth": 2,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "couch4": {
+    "sprite": "furniture/couch4.png",
+    "pixelWidth": 42,
+    "pixelHeight": 31,
+    "tileWidth": 2,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "couch5": {
+    "sprite": "furniture/couch5.png",
+    "pixelWidth": 34,
+    "pixelHeight": 35,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "couch6": {
+    "sprite": "furniture/couch6.png",
+    "pixelWidth": 34,
+    "pixelHeight": 35,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "couch7": {
+    "sprite": "furniture/couch7.png",
+    "pixelWidth": 31,
+    "pixelHeight": 29,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "couch8": {
+    "sprite": "furniture/couch8.png",
+    "pixelWidth": 31,
+    "pixelHeight": 29,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_clothing_rack_1": {
+    "sprite": "furniture/G_clothing_rack_1.png",
+    "pixelWidth": 43,
+    "pixelHeight": 33,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_clothing_rack_2": {
+    "sprite": "furniture/G_clothing_rack_2.png",
+    "pixelWidth": 43,
+    "pixelHeight": 33,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_computer_1": {
+    "sprite": "furniture/G_computer_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 24,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_computer_2": {
+    "sprite": "furniture/G_computer_2.png",
+    "pixelWidth": 20,
+    "pixelHeight": 23,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Gcouch1": {
+    "sprite": "furniture/Gcouch1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 27,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Gcouch2": {
+    "sprite": "furniture/Gcouch2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 27,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_floor_mattress_1": {
+    "sprite": "furniture/G_floor_mattress_1.png",
+    "pixelWidth": 28,
+    "pixelHeight": 18,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_garbage_1": {
+    "sprite": "furniture/G_garbage_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 17,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_lamp": {
+    "sprite": "furniture/G_lamp.png",
+    "pixelWidth": 13,
+    "pixelHeight": 31,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_laptop_1": {
+    "sprite": "furniture/G_laptop_1.png",
+    "pixelWidth": 14,
+    "pixelHeight": 16,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_laptop_2": {
+    "sprite": "furniture/G_laptop_2.png",
+    "pixelWidth": 14,
+    "pixelHeight": 16,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "g_lay_couch_1": {
+    "sprite": "furniture/g_lay_couch_1.png",
+    "pixelWidth": 27,
+    "pixelHeight": 24,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "g_lay_couch_2": {
+    "sprite": "furniture/g_lay_couch_2.png",
+    "pixelWidth": 27,
+    "pixelHeight": 24,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_rug_1": {
+    "sprite": "furniture/G_rug_1.png",
+    "pixelWidth": 42,
+    "pixelHeight": 23,
+    "tileWidth": 2,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Gsingle_chair_1": {
+    "sprite": "furniture/Gsingle_chair_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 23,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Gsingle_chair_2": {
+    "sprite": "furniture/Gsingle_chair_2.png",
+    "pixelWidth": 18,
+    "pixelHeight": 23,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_soap": {
+    "sprite": "furniture/G_soap.png",
+    "pixelWidth": 12,
+    "pixelHeight": 7,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_table_cloth_1": {
+    "sprite": "furniture/G_table_cloth_1.png",
+    "pixelWidth": 30,
+    "pixelHeight": 21,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_table_cloth_2": {
+    "sprite": "furniture/G_table_cloth_2.png",
+    "pixelWidth": 30,
+    "pixelHeight": 21,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_tub_1": {
+    "sprite": "furniture/G_tub_1.png",
+    "pixelWidth": 32,
+    "pixelHeight": 25,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "G_tub_2": {
+    "sprite": "furniture/G_tub_2.png",
+    "pixelWidth": 32,
+    "pixelHeight": 25,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "lay_couch_1": {
+    "sprite": "furniture/lay_couch_1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 27,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "lay_couch_2": {
+    "sprite": "furniture/lay_couch_2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 27,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "low_table": {
+    "sprite": "furniture/low_table.png",
+    "pixelWidth": 18,
+    "pixelHeight": 16,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Ocouch1": {
+    "sprite": "furniture/Ocouch1.png",
+    "pixelWidth": 28,
+    "pixelHeight": 27,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Ocouch2": {
+    "sprite": "furniture/Ocouch2.png",
+    "pixelWidth": 28,
+    "pixelHeight": 27,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Ocouch_w_pillows_1": {
+    "sprite": "furniture/Ocouch_w_pillows_1.png",
+    "pixelWidth": 30,
+    "pixelHeight": 26,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Ocouch_w_pillows_2": {
+    "sprite": "furniture/Ocouch_w_pillows_2.png",
+    "pixelWidth": 30,
+    "pixelHeight": 26,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "P2Couch1": {
+    "sprite": "furniture/P2Couch1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 20,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "P2Couch2": {
+    "sprite": "furniture/P2Couch2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 20,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Pcouch1": {
+    "sprite": "furniture/Pcouch1.png",
+    "pixelWidth": 26,
+    "pixelHeight": 19,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Pcouch2": {
+    "sprite": "furniture/Pcouch2.png",
+    "pixelWidth": 26,
+    "pixelHeight": 19,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "P_rug_1": {
+    "sprite": "furniture/P_rug_1.png",
+    "pixelWidth": 22,
+    "pixelHeight": 12,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "R_curtain_1": {
+    "sprite": "furniture/R_curtain_1.png",
+    "pixelWidth": 17,
+    "pixelHeight": 29,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "R_curtain_2": {
+    "sprite": "furniture/R_curtain_2.png",
+    "pixelWidth": 17,
+    "pixelHeight": 29,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Room_preset": {
+    "sprite": "furniture/Room_preset.png",
+    "pixelWidth": 98,
+    "pixelHeight": 84,
+    "tileWidth": 4,
+    "tileHeight": 3,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "S_fridge_1": {
+    "sprite": "furniture/S_fridge_1.png",
+    "pixelWidth": 22,
+    "pixelHeight": 34,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "S_fridge_2": {
+    "sprite": "furniture/S_fridge_2.png",
+    "pixelWidth": 22,
+    "pixelHeight": 34,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "single_couch_1": {
+    "sprite": "furniture/single_couch_1.png",
+    "pixelWidth": 18,
+    "pixelHeight": 15,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "wood_box_1": {
+    "sprite": "furniture/wood_box_1.png",
+    "pixelWidth": 10,
+    "pixelHeight": 10,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "wood_box_2": {
+    "sprite": "furniture/wood_box_2.png",
+    "pixelWidth": 10,
+    "pixelHeight": 10,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Ycouch1": {
+    "sprite": "furniture/Ycouch1.png",
+    "pixelWidth": 28,
+    "pixelHeight": 28,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+,
+  "Ycouch2": {
+    "sprite": "furniture/Ycouch2.png",
+    "pixelWidth": 28,
+    "pixelHeight": 28,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "furniture"
+  }
+}

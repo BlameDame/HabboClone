@@ -1,0 +1,49 @@
+{
+  "avatar template": {
+    "sprite": "avatar/avatar template.png",
+    "pixelWidth": 57,
+    "pixelHeight": 56,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "avatar"
+  }
+,
+  "avatar_walk2": {
+    "sprite": "avatar/avatar_walk2.png",
+    "pixelWidth": 256,
+    "pixelHeight": 64,
+    "tileWidth": 8,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "avatar"
+  }
+,
+  "avatar_walk_left": {
+    "sprite": "avatar/avatar_walk_left.png",
+    "pixelWidth": 320,
+    "pixelHeight": 64,
+    "tileWidth": 10,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "avatar"
+  }
+,
+  "avatar_walk_right": {
+    "sprite": "avatar/avatar_walk_right.png",
+    "pixelWidth": 320,
+    "pixelHeight": 64,
+    "tileWidth": 10,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "avatar"
+  }
+}

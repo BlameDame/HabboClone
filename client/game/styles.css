@@ -227,3 +227,46 @@ h3 {
         width: 100%;
       }
     }
+
+.furni-toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.furni-toolbar input {
+  flex: 1;
+  margin-right: 6px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+}
+
+.furni-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 48px);
+  gap: 6px;
+  max-height: 250px;
+  overflow-y: auto;
+  background: #2a2a2a;
+  padding: 6px;
+  border-radius: 6px;
+  position: relative;
+  z-index: 999;
+}
+
+.furni-grid img {
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.furni-grid img:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+  background-color: #ffffff38;
+  border-radius: 4px;
+  opacity: 0.9;
+}

@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Habbo-ish Phaser Isometric Prototype</title>
+  <title>UsWorld</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -67,6 +67,18 @@
   <p><strong>Visitors:</strong> 3/25</p>
   <button id="btn-edit-room" class="btn secondary">Edit Room</button>
 </div>
+
+<div id="edit-room-window" class="window hidden">
+  <h3>Edit Room</h3>
+
+  <div class="furni-toolbar">
+    <input type="text" id="furni-search" placeholder="Search furniture..." />
+    <button id="btn-close-editor" class="btn small">Close</button>
+  </div>
+
+  <div id="furni-list" class="furni-grid"></div>
+</div>
+
 
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
   <script>

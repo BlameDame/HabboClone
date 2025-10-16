@@ -16,11 +16,75 @@ let currentPlayer = null;
 let currentRoom = null; // { id, name, rows, cols, shape, furniture: [] }
 const furnitureGameObjects = {};
 let _uidCounter = 1;
-function generateUID() { return `f${Date.now().toString(36)}_${_uidCounter++}`; }
-
 // -------------- DOM UI --------------
 const roomButtonsDiv = document.getElementById('room-buttons');
 const furnDiv = document.getElementById('furniture-list');
+const furniList = document.getElementById('furni-list');
+const furniSearch = document.getElementById('furni-search');
+
+let furnitureData = null;
+let currentScene = null; // set this when your Phaser scene is created
+
+
+furniSearch.addEventListener('input', () => {
+  populateFurnitureList(furniSearch.value.toLowerCase());
+});
+
+function populateFurnitureList(filter = '') {
+  if (!furnitureData) furnitureData = currentScene.cache.json.get('furniture');
+  if (!furnitureData) return;
+
+  furniList.innerHTML = '';
+
+  for (const [key, info] of Object.entries(furnitureData)) {
+    if (filter && !key.toLowerCase().includes(filter)) continue;
+
+    const img = document.createElement('img');
+    img.src = `assets/${info.sprite}`;
+    img.title = key;
+
+    img.addEventListener('click', () => {
+      // spawn near center of screen or mouse position
+      const x = currentScene.cameras.main.centerX;
+      const y = currentScene.cameras.main.centerY + 100;
+      spawnFurniture(currentScene, key, x, y);
+    });
+
+    furniList.appendChild(img);
+  }
+}
+
+window.addEventListener('load', () => {
+  const editRoomBtn = document.getElementById('btn-edit-room');
+  const editRoomWindow = document.getElementById('edit-room-window');
+  const closeEditorBtn = document.getElementById('btn-close-editor');
+
+  if (editRoomBtn && editRoomWindow) {
+    editRoomBtn.addEventListener('click', () => {
+      editRoomWindow.classList.remove('hidden');
+      editRoomWindow.classList.add('visible');
+      populateFurnitureList();
+    });
+  }
+
+  if (closeEditorBtn && editRoomWindow) {
+    closeEditorBtn.addEventListener('click', () => {
+      editRoomWindow.classList.remove('visible');
+      editRoomWindow.classList.add('hidden');
+    });
+  }
+
+  editRoomBtn.addEventListener('click', () => {
+  document.getElementById('room-window').classList.add('visible'); // ensure room window is visible
+  editRoomWindow.classList.remove('hidden');
+  editRoomWindow.classList.add('visible');
+  populateFurnitureList();
+});
+
+});
+
+
+function generateUID() { return `f${Date.now().toString(36)}_${_uidCounter++}`; }
 
 function log(msg) {
   const l = document.getElementById('log');
@@ -195,14 +259,19 @@ function screenToTile(screenX, screenY) {
 // -------------- PHASER SCENE --------------
 function preload() {
   this.load.spritesheet('avatar_walk_right', 'assets/avatar/avatar_walk_right.png', {
-  frameWidth: 64,   // adjust to match your sprite’s frame width
+    frameWidth: 64,   // adjust to match your sprite’s frame width
   frameHeight: 64   // adjust to match height
 });
+  const categories = ['furniture', 'objects', 'walls', 'avatar'];
+  categories.forEach(category => {
+    this.load.json(category, `metadata/${category}.json`);
+  });
 }
 
 async function create() {
   sceneRef = this;
   window.gameScene = this;
+  currentScene = this; // for UI access
 
   initBottomUI();
   initChatSystem();
@@ -210,6 +279,22 @@ async function create() {
   // ensure websocket
   connectWebSocket();
 
+  const categories = ['furniture', 'objects', 'walls', 'avatar'];
+
+  categories.forEach(category => {
+    const data = this.cache.json.get(category);
+      if (!data) return;
+
+      for (const [key, info] of Object.entries(data)) {
+        this.load.image(key, `assets/${info.sprite}`);
+      }
+  });
+
+  this.load.once('complete', () => {
+    console.log("✅ All furniture and assets loaded!");
+  });
+
+  this.load.start();
 
   // request room templates over WS
   try {
@@ -229,7 +314,7 @@ async function create() {
     sceneRef.anims.create({
   key: 'walk',
   frames: sceneRef.anims.generateFrameNumbers('avatar_walk_right', { start: 0, end: 4 }),
-  frameRate: 6,
+  frameRate: 16,
   repeat: -1
 });
 
@@ -250,6 +335,7 @@ async function create() {
   window.addEventListener('resize', () => {
     this.scale.resize(window.innerWidth - 260, window.innerHeight);
   });
+  populateFurnitureList();
 }
 
 async function joinRoom(roomName) {
@@ -571,6 +657,28 @@ function spawnFurnitureFromUI(proto) {
   log(`Spawned ${proto.id} as ${uid}`);
 }
 window.spawnFurnitureFromUI = spawnFurnitureFromUI;
+
+function spawnFurniture(scene, furnitureKey, x, y) {
+  const data = scene.cache.json.get('furniture');
+  if (!data || !data[furnitureKey]) {
+    console.warn(`Furniture "${furnitureKey}" not found in JSON`);
+    return;
+  }
+
+  const info = data[furnitureKey];
+  const sprite = scene.add.image(x, y, furnitureKey)
+    .setOrigin(0.5, 1)  // aligns bottom center (common for isometric style)
+    .setDepth(y)        // depth sorting by Y for overlap realism
+    .setInteractive({ useHandCursor: true });
+
+  sprite.meta = info;
+  sprite.on('pointerdown', () => {
+    console.log(`🪑 You clicked on ${furnitureKey}`);
+  });
+
+  return sprite;
+}
+
 
 // -------------- CAMERA --------------
 function centerCameraOnRoom(scene) {

@@ -1,0 +1,589 @@
+{
+  "ac-1": {
+    "sprite": "objects/ac-1.png",
+    "pixelWidth": 59,
+    "pixelHeight": 50,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "box-1": {
+    "sprite": "objects/box-1.png",
+    "pixelWidth": 32,
+    "pixelHeight": 33,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "chair-1": {
+    "sprite": "objects/chair-1.png",
+    "pixelWidth": 32,
+    "pixelHeight": 48,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "chair-2": {
+    "sprite": "objects/chair-2.png",
+    "pixelWidth": 32,
+    "pixelHeight": 48,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "chair-3": {
+    "sprite": "objects/chair-3.png",
+    "pixelWidth": 32,
+    "pixelHeight": 48,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "chair-4": {
+    "sprite": "objects/chair-4.png",
+    "pixelWidth": 32,
+    "pixelHeight": 48,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "chair_blue_back": {
+    "sprite": "objects/chair_blue_back.png",
+    "pixelWidth": 33,
+    "pixelHeight": 42,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "chair_blue_front": {
+    "sprite": "objects/chair_blue_front.png",
+    "pixelWidth": 32,
+    "pixelHeight": 48,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "chair_green_back": {
+    "sprite": "objects/chair_green_back.png",
+    "pixelWidth": 33,
+    "pixelHeight": 42,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "chair_green_front": {
+    "sprite": "objects/chair_green_front.png",
+    "pixelWidth": 32,
+    "pixelHeight": 48,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "chair_red_back": {
+    "sprite": "objects/chair_red_back.png",
+    "pixelWidth": 33,
+    "pixelHeight": 42,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "chair_red_front": {
+    "sprite": "objects/chair_red_front.png",
+    "pixelWidth": 32,
+    "pixelHeight": 48,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "chair_yellow_back": {
+    "sprite": "objects/chair_yellow_back.png",
+    "pixelWidth": 33,
+    "pixelHeight": 42,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "chair_yellow_front": {
+    "sprite": "objects/chair_yellow_front.png",
+    "pixelWidth": 32,
+    "pixelHeight": 48,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "curtainDown-1": {
+    "sprite": "objects/curtainDown-1.png",
+    "pixelWidth": 40,
+    "pixelHeight": 67,
+    "tileWidth": 2,
+    "tileHeight": 3,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "curtainUp-1": {
+    "sprite": "objects/curtainUp-1.png",
+    "pixelWidth": 40,
+    "pixelHeight": 67,
+    "tileWidth": 2,
+    "tileHeight": 3,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "door-1": {
+    "sprite": "objects/door-1.png",
+    "pixelWidth": 29,
+    "pixelHeight": 72,
+    "tileWidth": 1,
+    "tileHeight": 3,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "door-2": {
+    "sprite": "objects/door-2.png",
+    "pixelWidth": 29,
+    "pixelHeight": 72,
+    "tileWidth": 1,
+    "tileHeight": 3,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "fridge-1": {
+    "sprite": "objects/fridge-1.png",
+    "pixelWidth": 47,
+    "pixelHeight": 87,
+    "tileWidth": 2,
+    "tileHeight": 3,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "hanger_empty": {
+    "sprite": "objects/hanger_empty.png",
+    "pixelWidth": 24,
+    "pixelHeight": 62,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "kitchen-1": {
+    "sprite": "objects/kitchen-1.png",
+    "pixelWidth": 60,
+    "pixelHeight": 55,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "kitchen-2": {
+    "sprite": "objects/kitchen-2.png",
+    "pixelWidth": 60,
+    "pixelHeight": 55,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "kitchen-3": {
+    "sprite": "objects/kitchen-3.png",
+    "pixelWidth": 60,
+    "pixelHeight": 55,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "kitchen-4": {
+    "sprite": "objects/kitchen-4.png",
+    "pixelWidth": 60,
+    "pixelHeight": 55,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "kitchen-5": {
+    "sprite": "objects/kitchen-5.png",
+    "pixelWidth": 90,
+    "pixelHeight": 70,
+    "tileWidth": 3,
+    "tileHeight": 3,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "kitchen-6": {
+    "sprite": "objects/kitchen-6.png",
+    "pixelWidth": 122,
+    "pixelHeight": 86,
+    "tileWidth": 4,
+    "tileHeight": 3,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "kitchenKnife-1": {
+    "sprite": "objects/kitchenKnife-1.png",
+    "pixelWidth": 14,
+    "pixelHeight": 10,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "kitchenTable-1": {
+    "sprite": "objects/kitchenTable-1.png",
+    "pixelWidth": 22,
+    "pixelHeight": 15,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "library_books": {
+    "sprite": "objects/library_books.png",
+    "pixelWidth": 29,
+    "pixelHeight": 57,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "library_empty": {
+    "sprite": "objects/library_empty.png",
+    "pixelWidth": 29,
+    "pixelHeight": 57,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "microwave-1": {
+    "sprite": "objects/microwave-1.png",
+    "pixelWidth": 44,
+    "pixelHeight": 43,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "oven-1": {
+    "sprite": "objects/oven-1.png",
+    "pixelWidth": 47,
+    "pixelHeight": 58,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "rug-1": {
+    "sprite": "objects/rug-1.png",
+    "pixelWidth": 46,
+    "pixelHeight": 26,
+    "tileWidth": 2,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "rug_circle_blue": {
+    "sprite": "objects/rug_circle_blue.png",
+    "pixelWidth": 90,
+    "pixelHeight": 56,
+    "tileWidth": 3,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "rug_circle_green": {
+    "sprite": "objects/rug_circle_green.png",
+    "pixelWidth": 90,
+    "pixelHeight": 56,
+    "tileWidth": 3,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "rug_circle_red": {
+    "sprite": "objects/rug_circle_red.png",
+    "pixelWidth": 90,
+    "pixelHeight": 56,
+    "tileWidth": 3,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "rug_circle_yellow": {
+    "sprite": "objects/rug_circle_yellow.png",
+    "pixelWidth": 90,
+    "pixelHeight": 56,
+    "tileWidth": 3,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "rug_square_blue": {
+    "sprite": "objects/rug_square_blue.png",
+    "pixelWidth": 102,
+    "pixelHeight": 52,
+    "tileWidth": 4,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "rug_square_green": {
+    "sprite": "objects/rug_square_green.png",
+    "pixelWidth": 102,
+    "pixelHeight": 52,
+    "tileWidth": 4,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "rug_square_red": {
+    "sprite": "objects/rug_square_red.png",
+    "pixelWidth": 102,
+    "pixelHeight": 52,
+    "tileWidth": 4,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "rug_square_yellow": {
+    "sprite": "objects/rug_square_yellow.png",
+    "pixelWidth": 102,
+    "pixelHeight": 52,
+    "tileWidth": 4,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "shelf-1": {
+    "sprite": "objects/shelf-1.png",
+    "pixelWidth": 47,
+    "pixelHeight": 31,
+    "tileWidth": 2,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "table-1": {
+    "sprite": "objects/table-1.png",
+    "pixelWidth": 100,
+    "pixelHeight": 71,
+    "tileWidth": 4,
+    "tileHeight": 3,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "table-2": {
+    "sprite": "objects/table-2.png",
+    "pixelWidth": 72,
+    "pixelHeight": 57,
+    "tileWidth": 3,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "telephone-1": {
+    "sprite": "objects/telephone-1.png",
+    "pixelWidth": 13,
+    "pixelHeight": 23,
+    "tileWidth": 1,
+    "tileHeight": 1,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "tv-1": {
+    "sprite": "objects/tv-1.png",
+    "pixelWidth": 44,
+    "pixelHeight": 52,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "white_ac_off": {
+    "sprite": "objects/white_ac_off.png",
+    "pixelWidth": 59,
+    "pixelHeight": 50,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "white_ac_on": {
+    "sprite": "objects/white_ac_on.png",
+    "pixelWidth": 59,
+    "pixelHeight": 50,
+    "tileWidth": 2,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+,
+  "window-1": {
+    "sprite": "objects/window-1.png",
+    "pixelWidth": 31,
+    "pixelHeight": 58,
+    "tileWidth": 1,
+    "tileHeight": 2,
+    "offsetX": 0,
+    "offsetY": 0,
+    "depth": 0,
+    "type": "objects"
+  }
+}
