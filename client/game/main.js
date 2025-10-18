@@ -1,4 +1,4 @@
-// main.js - Phaser isometric-ish prototype with WS-based DB calls (JSON "type" messages)
+// main.js - Fixed version with proper furniture placement and tile clicking
 
 // -------------- GLOBALS --------------
 const GLOBAL = {
@@ -8,12 +8,13 @@ const GLOBAL = {
   originY: 0
 };
 
-const WS_URL = "ws://localhost:9001"; // your server
+const WS_URL = "ws://localhost:9001";
 let sceneRef = null;
 let ws = null;
-const players = {}; // username -> sprite container
+const players = {};
 let currentPlayer = null;
-let currentRoom = null; // { id, name, rows, cols, shape, furniture: [] }
+let currentPlayerPOS;
+let currentRoom = null;
 const furnitureGameObjects = {};
 let _uidCounter = 1;
 // -------------- DOM UI --------------
@@ -23,8 +24,9 @@ const furniList = document.getElementById('furni-list');
 const furniSearch = document.getElementById('furni-search');
 
 let furnitureData = null;
-let currentScene = null; // set this when your Phaser scene is created
-
+let currentScene = null;
+let isDraggingFurniture = false;
+let ghostFurniture = null;
 
 furniSearch.addEventListener('input', () => {
   populateFurnitureList(furniSearch.value.toLowerCase());
@@ -42,16 +44,118 @@ function populateFurnitureList(filter = '') {
     const img = document.createElement('img');
     img.src = `assets/${info.sprite}`;
     img.title = key;
+    img.style.cursor = 'grab';
 
-    img.addEventListener('click', () => {
-      // spawn near center of screen or mouse position
-      const x = currentScene.cameras.main.centerX;
-      const y = currentScene.cameras.main.centerY + 100;
-      spawnFurniture(currentScene, key, x, y);
+    // Proper drag and drop implementation
+    img.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      startFurnitureDrag(key, e);
     });
 
     furniList.appendChild(img);
   }
+}
+
+function startFurnitureDrag(protoId, mouseEvent) {
+  if (!currentScene || isDraggingFurniture) return;
+  
+  isDraggingFurniture = true;
+  const uid = generateUID();
+  
+  // Create ghost furniture that follows cursor
+  const pointer = currentScene.input.activePointer;
+  const worldPoint = currentScene.cameras.main.getWorldPoint(pointer.x, pointer.y);
+  const { tx, ty } = screenToTile(worldPoint.x, worldPoint.y);
+  
+  const model = { 
+    uid, 
+    proto_id: protoId, 
+    tx: Math.max(0, Math.min(tx, currentRoom.cols - 1)), 
+    ty: Math.max(0, Math.min(ty, currentRoom.rows - 1)), 
+    color: 0x78c 
+  };
+  
+  ghostFurniture = createGhostFurniture(currentScene, model);
+  
+  // Track mouse movement
+  const moveHandler = (e) => {
+    if (!ghostFurniture || !currentScene) return;
+    
+    const pointer = currentScene.input.activePointer;
+    const worldPoint = currentScene.cameras.main.getWorldPoint(pointer.x, pointer.y);
+    const { tx, ty } = screenToTile(worldPoint.x, worldPoint.y);
+    
+    if (insideRoom(tx, ty)) {
+      const s = tileToScreen(tx, ty);
+      ghostFurniture.x = s.x;
+      ghostFurniture.y = s.y - (GLOBAL.tileH / 2) * 0.2;
+      ghostFurniture.alpha = 0.7;
+    } else {
+      ghostFurniture.alpha = 0.3;
+    }
+  };
+  
+  const upHandler = (e) => {
+    if (!ghostFurniture || !currentScene) return;
+    
+    const pointer = currentScene.input.activePointer;
+    const worldPoint = currentScene.cameras.main.getWorldPoint(pointer.x, pointer.y);
+    const { tx, ty } = screenToTile(worldPoint.x, worldPoint.y);
+    
+    if (insideRoom(tx, ty)) {
+      // Place furniture
+      model.tx = tx;
+      model.ty = ty;
+      currentRoom.furniture.push(model);
+      createFurnitureGO(currentScene, model);
+      
+      // Send to server
+      sendWS({
+        type: 'CREATE_FURNITURE',
+        room: currentRoom.name,
+        uid: model.uid,
+        proto_id: model.proto_id,
+        tx,
+        ty,
+        color: model.color
+      });
+      
+      log(`Placed ${protoId} at (${tx}, ${ty})`);
+    }
+    
+    // Cleanup
+    ghostFurniture.destroy();
+    ghostFurniture = null;
+    isDraggingFurniture = false;
+    
+    document.removeEventListener('mousemove', moveHandler);
+    document.removeEventListener('mouseup', upHandler);
+  };
+  
+  document.addEventListener('mousemove', moveHandler);
+  document.addEventListener('mouseup', upHandler);
+}
+
+function createGhostFurniture(scene, model) {
+  const s = tileToScreen(model.tx, model.ty);
+  const y = s.y - (GLOBAL.tileH / 2) * 0.2;
+  
+  const container = scene.add.container(s.x, y);
+  container.setDepth(1000);
+  container.alpha = 0.7;
+  
+  if (scene.textures.exists(model.proto_id)) {
+    const sprite = scene.add.image(0, 0, model.proto_id).setOrigin(0.5, 1);
+    container.add(sprite);
+  } else {
+    const size = Math.max(20, GLOBAL.tileW * 0.6);
+    const g = scene.add.graphics();
+    g.fillStyle(model.color || 0x78c, 1);
+    g.fillRoundedRect(-size / 2, -size / 2, size, size * 0.6, 6);
+    container.add(g);
+  }
+  
+  return container;
 }
 
 window.addEventListener('load', () => {
@@ -73,16 +177,7 @@ window.addEventListener('load', () => {
       editRoomWindow.classList.add('hidden');
     });
   }
-
-  editRoomBtn.addEventListener('click', () => {
-  document.getElementById('room-window').classList.add('visible'); // ensure room window is visible
-  editRoomWindow.classList.remove('hidden');
-  editRoomWindow.classList.add('visible');
-  populateFurnitureList();
 });
-
-});
-
 
 function generateUID() { return `f${Date.now().toString(36)}_${_uidCounter++}`; }
 
@@ -93,7 +188,6 @@ function log(msg) {
   l.prepend(line);
 }
 
-// bottom UI stub
 function initBottomUI() {
   const btnChat = document.getElementById('btn-chat');
   const btnFriends = document.getElementById('btn-friends');
@@ -111,39 +205,43 @@ function toggleSection(id) {
   if (!el) return;
 
   const isVisible = el.classList.contains('visible');
-  // Hide all windows before showing the one clicked
   document.querySelectorAll('.window').forEach(w => {
     w.classList.remove('visible');
     w.classList.add('hidden');
   });
 
-  // If it wasn't visible, show it
   if (!isVisible) {
     el.classList.remove('hidden');
     el.classList.add('visible');
   }
 }
-  // chat system
+
 function initChatSystem() {
   const input = document.getElementById('chat-input');
   const sendBtn = document.getElementById('btn-send-chat');
 
   if (!input || !sendBtn) return;
 
-  sendBtn.onclick = sendChatMessage;
+  sendBtn.onclick = sendChatMessage();
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter') sendChatMessage();
   });
+  console.log("Chat system initialized.");
 }
 
 function sendChatMessage() {
   const input = document.getElementById('chat-input');
   const msg = input.value.trim();
   if (!msg) return;
-  // For now, display as a floating text near player (mock)
-  showChatBubble(msg, { x: window.innerWidth / 2, y: window.innerHeight / 2 });
-  ws.send(msg);
-
+  
+  console.log('Sending message:', msg);
+  showChatBubble(msg, getPlayerScreenPos()  /*{ x: window.innerWidth / 2, y: window.innerHeight / 2 }*/);
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(msg);
+  } else {
+    log('Not connected to server');
+  }
+  
   input.value = '';
 }
 
@@ -153,12 +251,13 @@ function showChatBubble(text, pos) {
   bubble.textContent = text;
   document.body.appendChild(bubble);
 
-  bubble.style.left = pos.x + 'px';
-  bubble.style.top = (pos.y - 50) + 'px';
-
+  bubble.style.left = (pos.x + 290) + 'px'; // MAGIC NUMBER 290 // Adjust for game container offset
+  bubble.style.top = (pos.y) + 'px';
+  
   setTimeout(() => {
     bubble.remove();
   }, 4000);
+  
 }
 
 function displayPlainChatMessage(raw) {
@@ -177,20 +276,26 @@ function displayPlainChatMessage(raw) {
 }
 
 function getPlayerScreenPos(username) {
-  // For now, center on screen or mock logic
+  const sprite = players[username];
+  if (sprite) {
+    return { x: sprite.x, y: sprite.y };
+  }
+  if (currentPlayer) {
+    return { x: currentPlayer.x, y: currentPlayer.y };
+  }
   return { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 }
 
 function spawnPlayer(username, tx, ty) {
   if (!sceneRef) return;
-  if (players[username]) return; // already exists
+  if (players[username]) return;
 
   const s = tileToScreen(tx, ty);
 
   const sprite = sceneRef.add.sprite(s.x, s.y - 16, 'avatar_walk_right', 0);
   sprite.setOrigin(0.5, 1);
   sprite.setScale(2);
-  sprite.setDepth(4)
+  sprite.setDepth(4);
   sprite.tx = tx;
   sprite.ty = ty;
   players[username] = sprite;
@@ -210,21 +315,20 @@ function movePlayer(username, tx, ty) {
   if (!sprite) return;
 
   const s = tileToScreen(tx, ty);
-sceneRef.tweens.add({
-  targets: sprite,
-  x: s.x,
-  y: s.y - 16,
-  duration: 400,
-  onStart: () => sprite.play('walk', true),
-  onComplete: () => sprite.stop().setFrame(0)
-});
-
+  sceneRef.tweens.add({
+    targets: sprite,
+    x: s.x,
+    y: s.y - 16,
+    duration: 400,
+    onStart: () => sprite.play('walk', true),
+    onComplete: () => sprite.stop().setFrame(0)
+  });
 
   sprite.tx = tx;
   sprite.ty = ty;
+
+  currentPlayerPOS = { x: tx, y: ty };
 }
-
-
 
 // -------------- PHASER CONFIG --------------
 const phaserConfig = {
@@ -239,29 +343,34 @@ const phaserConfig = {
 
 const game = new Phaser.Game(phaserConfig);
 
-// -------------- ISOMETRIC HELPERS --------------
+// -------------- ISOMETRIC HELPERS (FIXED) --------------
 function tileToScreen(tx, ty) {
-  const w = GLOBAL.tileW, h = GLOBAL.tileH;
+  const w = GLOBAL.tileW;
+  const h = GLOBAL.tileH;
   const sx = (tx - ty) * (w / 2);
   const sy = (tx + ty) * (h / 2);
   return { x: sx + GLOBAL.originX, y: sy + GLOBAL.originY };
 }
 
 function screenToTile(screenX, screenY) {
-  const w = GLOBAL.tileW, h = GLOBAL.tileH;
+  const w = GLOBAL.tileW;
+  const h = GLOBAL.tileH;
+  
   const x = screenX - GLOBAL.originX;
   const y = screenY - GLOBAL.originY;
-  const tx = ((x / (w/2)) + (y / (h/2))) / 2;
-  const ty = ((y / (h/2)) - (x / (w/2))) / 2;
-  return { tx: Math.round(tx), ty: Math.round(ty) };
+  
+  const tx = (x / (w / 2) + y / (h / 2)) / 2;
+  const ty = (y / (h / 2) - x / (w / 2)) / 2;
+  
+  return { tx: Math.floor(tx), ty: Math.floor(ty) };
 }
 
 // -------------- PHASER SCENE --------------
 function preload() {
   this.load.spritesheet('avatar_walk_right', 'assets/avatar/avatar_walk_right.png', {
-    frameWidth: 64,   // adjust to match your sprite’s frame width
-  frameHeight: 64   // adjust to match height
-});
+    frameWidth: 64,
+    frameHeight: 64
+  });
   const categories = ['furniture', 'objects', 'walls', 'avatar'];
   categories.forEach(category => {
     this.load.json(category, `metadata/${category}.json`);
@@ -271,23 +380,22 @@ function preload() {
 async function create() {
   sceneRef = this;
   window.gameScene = this;
-  currentScene = this; // for UI access
+  currentScene = this;
 
   initBottomUI();
   initChatSystem();
 
-  // ensure websocket
   connectWebSocket();
 
   const categories = ['furniture', 'objects', 'walls', 'avatar'];
 
   categories.forEach(category => {
     const data = this.cache.json.get(category);
-      if (!data) return;
+    if (!data) return;
 
-      for (const [key, info] of Object.entries(data)) {
-        this.load.image(key, `assets/${info.sprite}`);
-      }
+    for (const [key, info] of Object.entries(data)) {
+      this.load.image(key, `assets/${info.sprite}`);
+    }
   });
 
   this.load.once('complete', () => {
@@ -296,7 +404,6 @@ async function create() {
 
   this.load.start();
 
-  // request room templates over WS
   try {
     const templates = await requestWS({ type: 'GET_ROOM_TEMPLATES' });
     populateRoomButtons(templates || []);
@@ -311,30 +418,33 @@ async function create() {
   this.cameras.main.setZoom(1);
   this.cameras.main.centerToBounds();
 
-    sceneRef.anims.create({
-  key: 'walk',
-  frames: sceneRef.anims.generateFrameNumbers('avatar_walk_right', { start: 0, end: 4 }),
-  frameRate: 16,
-  repeat: -1
-});
+  sceneRef.anims.create({
+    key: 'walk',
+    frames: sceneRef.anims.generateFrameNumbers('avatar_walk_right', { start: 0, end: 4 }),
+    frameRate: 16,
+    repeat: -1
+  });
 
-
-
-  // pointer handling
+  // FIXED: Pointer handling with proper tile detection
   this.input.on('pointerdown', pointer => {
-    const p = pointer.positionToCamera(this.cameras.main);
-    const { tx, ty } = screenToTile(p.x, p.y);
+    // Ignore if dragging furniture
+    if (isDraggingFurniture) return;
+    
+    const worldPoint = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
+    const { tx, ty } = screenToTile(worldPoint.x, worldPoint.y);
+    
     if (currentRoom && insideRoom(tx, ty)) {
-      log(`Clicked tile ${tx},${ty}`);
+      log(`Clicked tile (${tx}, ${ty})`);
       movePlayer("You", tx, ty);
+      // currentPlayerPOS = { x: tx, y: ty };
       sendWS({ type: 'TILE_CLICK', room: currentRoom.name, tx, ty });
     }
   });
 
-  // resize support
   window.addEventListener('resize', () => {
     this.scale.resize(window.innerWidth - 260, window.innerHeight);
   });
+  
   populateFurnitureList();
 }
 
@@ -344,26 +454,22 @@ async function joinRoom(roomName) {
     return;
   }
 
-  // Send join command to server
   ws.send(`/join ${roomName}`);
 
-  // Set currentRoom so client UI knows where we are
   currentRoom = {
     name: roomName,
     furniture: [],
-    rows: 10, // default values until server sends ROOM_STATE
+    rows: 10,
     cols: 10
   };
 
-  drawRoom(); // draw empty room until server fills it
+  drawRoom();
 }
-
 
 function update(time, dt) {}
 
-// -------------- WEBSOCKET REQUEST/RESPONSE machinery --------------
+// -------------- WEBSOCKET --------------
 function connectWebSocket() {
-  // if it's already open, just resolve immediately
   if (ws && ws.readyState === WebSocket.OPEN) {
     return Promise.resolve();
   }
@@ -390,25 +496,25 @@ function connectWebSocket() {
     };
 
     ws.onmessage = ev => {
-  try {
-    const msg = JSON.parse(ev.data);
-    handleWSMessage(msg);
-  } catch (e) {
+      try {
+        const msg = JSON.parse(ev.data);
+        handleWSMessage(msg);
+      } catch (e) {
     // Non-JSON = simple room chat message
-    const raw = ev.data.trim();
-    if (!raw) return;
-    if (raw.startsWith('❌') || raw.startsWith('✅') || raw.startsWith('⚠️')) {
-      log(raw);
-      return;
-    }
+        const raw = ev.data.trim();
+        if (!raw) return;
+        if (raw.startsWith('❌') || raw.startsWith('✅') || raw.startsWith('⚠️')) {
+          log(raw);
+          return;
+        }
     if (raw.startsWith('')) {
-      log(raw);
+        log(raw);
       return;
     }
     log(raw)
-    displayPlainChatMessage(raw);
-  }
-};
+        displayPlainChatMessage(raw);
+      }
+    };
 
 
     ws.onclose = () => log('WebSocket closed');
@@ -416,8 +522,6 @@ function connectWebSocket() {
   });
 }
 
-
-// simple send (no reqId)
 function sendWS(obj) {
   if (!ws || ws.readyState !== WebSocket.OPEN) {
     log('WS not connected. (would send) ' + JSON.stringify(obj));
@@ -426,9 +530,8 @@ function sendWS(obj) {
   ws.send(JSON.stringify(obj));
 }
 
-// requestWS returns Promise that resolves when server replies with same reqId
 async function requestWS(obj, timeoutMs = 5000) {
-  await connectWebSocket(); // <-- ensure it’s open before continuing
+  await connectWebSocket();
 
   return new Promise((resolve, reject) => {
     const reqId = generateUID();
@@ -444,7 +547,7 @@ async function requestWS(obj, timeoutMs = 5000) {
     }
 
     ws.addEventListener('message', listener);
-    ws.send(JSON.stringify(obj)); // safe now
+    ws.send(JSON.stringify(obj));
 
     setTimeout(() => {
       try { ws.removeEventListener('message', listener); } catch (e) {}
@@ -452,7 +555,6 @@ async function requestWS(obj, timeoutMs = 5000) {
     }, timeoutMs);
   });
 }
-
 
 // -------------- ROOM UI --------------
 function populateRoomButtons(roomTemplates) {
@@ -466,8 +568,6 @@ function populateRoomButtons(roomTemplates) {
   });
 }
 
-// -------------- ROOM MANAGEMENT --------------
-// ---------------- LOAD ROOM TEMPLATE ----------------
 async function loadRoomTemplate(roomId) {
   try {
     const tpl = await requestWS({ type: 'GET_ROOM_TEMPLATE', templateId: roomId });
@@ -476,7 +576,6 @@ async function loadRoomTemplate(roomId) {
       return;
     }
 
-    // Parse the default_layout_json from the DB (if any)
     let layout = null;
     if (tpl.default_layout_json) {
       try {
@@ -493,16 +592,14 @@ async function loadRoomTemplate(roomId) {
       rows: tpl.height || 10,
       skew_angle: tpl.skew_angle || 30,
       furniture: [],
-      layout: layout, // attach layout (could be null)
+      layout: layout,
     };
 
-    // Initialize global rendering constants
     GLOBAL.tileW = 64;
     GLOBAL.tileH = 32;
     GLOBAL.originX = (game.scale.width / 2) - (GLOBAL.tileW / 2);
     GLOBAL.originY = 50;
 
-    // Fetch any furniture associated with this room
     const furniture = await requestWS({ type: 'GET_ROOM_FURNITURE', roomId: currentRoom.id });
     currentRoom.furniture = furniture || [];
 
@@ -513,26 +610,21 @@ async function loadRoomTemplate(roomId) {
     log('Failed to load room template: ' + e);
   }
 
-  // Ensure WebSocket connection
   if (!ws || ws.readyState !== WebSocket.OPEN) connectWebSocket();
 }
 
 function insideRoom(tx, ty) {
   if (!currentRoom) return false;
 
-  // If layout JSON exists, use it to determine valid tiles
-    if (currentRoom.layout && currentRoom.layout.tiles) {
+  if (currentRoom.layout && currentRoom.layout.tiles) {
     const layout = currentRoom.layout.tiles;
     if (ty < 0 || ty >= layout.length) return false;
     if (tx < 0 || tx >= layout[ty].length) return false;
     return layout[ty][tx] === 1;
   }
 
-
-  // Fallback for rectangular rooms
   return tx >= 0 && ty >= 0 && tx < currentRoom.cols && ty < currentRoom.rows;
 }
-
 
 // -------------- DRAW ROOM --------------
 function drawRoom() {
@@ -592,95 +684,69 @@ function drawRoomWalls(scene) {
 
 // -------------- FURNITURE --------------
 function createFurnitureGO(scene, f) {
-  // f shape expected: { id, name, sprite_path, tx, ty, rotation, scale, interactable }
   const s = tileToScreen(f.tx, f.ty);
-  const y = s.y - (GLOBAL.tileH/2)*0.2;
-  const size = Math.max(20, GLOBAL.tileW*0.6);
-  const g = scene.add.graphics();
-  g.fillStyle(f.color || 0x78c,1);
-  g.fillRoundedRect(-size/2, -size/2, size, size*0.6,6);
-  const container = scene.add.container(s.x, y, [g]);
-  container.setSize(size, size*0.6);
-  container.setInteractive(new Phaser.Geom.Rectangle(-size/2,-size/2,size,size*0.6), Phaser.Geom.Rectangle.Contains);
-  container.uid = f.uid || (`dbid_${f.id}`); // prefer provided uid, otherwise DB generated id mapping
+  const y = s.y - (GLOBAL.tileH / 2) * 0.2;
+
+  const container = scene.add.container(s.x, y);
+  container.setSize(GLOBAL.tileW * 0.6, GLOBAL.tileH * 0.6);
+  container.setInteractive(
+    new Phaser.Geom.Rectangle(-container.width/2, -container.height/2, container.width, container.height),
+    Phaser.Geom.Rectangle.Contains
+  );
+
+  container.uid = f.uid || `dbid_${f.id}`;
   container.protoId = f.proto_id || f.name;
 
-  container.on('pointerdown', () => {
-    container.list[0].clear();
-    container.list[0].fillStyle(0xffff00,1);
-    container.list[0].fillRoundedRect(-size/2,-size/2,size,size*0.6,6);
+  let sprite = null;
+  if (scene.textures.exists(f.proto_id || f.name)) {
+    sprite = scene.add.image(0, 0, f.proto_id || f.name).setOrigin(0.5, 1);
+    container.add(sprite);
+  } else {
+    const size = Math.max(20, GLOBAL.tileW * 0.6);
+    const g = scene.add.graphics();
+    g.fillStyle(f.color || 0x78c, 1);
+    g.fillRoundedRect(-size / 2, -size / 2, size, size * 0.6, 6);
+    container.add(g);
+  }
+
+  container.on('pointerdown', pointer => {
+    if (sprite) sprite.setTint(0xffff00);
   });
 
   scene.input.setDraggable(container);
 
+  let lastTile = { tx: f.tx, ty: f.ty };
+
   container.on('drag', (pointer, dragX, dragY) => {
-    // container.x = dragX; container.y = dragY;
-    const { tx, ty } = screenToTile(dragX, dragY + GLOBAL.tileH/4);
+    const { tx, ty } = screenToTile(dragX, dragY + GLOBAL.tileH / 4);
     if (insideRoom(tx, ty)) {
       const s2 = tileToScreen(tx, ty);
-      container.x = s2.x; container.y = s2.y-(GLOBAL.tileH/2)*0.2;
+      container.x = s2.x;
+      container.y = s2.y - (GLOBAL.tileH / 2) * 0.2;
+      lastTile = { tx, ty };
     }
   });
 
   container.on('dragend', () => {
-    const { tx, ty } = screenToTile(container.x, container.y + GLOBAL.tileH/4);
-    if (insideRoom(tx, ty)) {
-      const s2 = tileToScreen(tx, ty);
-      container.x = s2.x; container.y = s2.y-(GLOBAL.tileH/2)*0.2;
-      const ff = currentRoom.furniture.find(x => x.uid===container.uid);
-      if (ff) { ff.tx=tx; ff.ty=ty; }
-      // persist move via WS JSON type (server broadcasts it)
-      sendWS({ type:'UPDATE_FURNITURE', room: currentRoom.name, uid: container.uid, tx, ty });
-    } else {
-      const ff = currentRoom.furniture.find(x => x.uid===container.uid);
-      if (ff) {
-        const s0 = tileToScreen(ff.tx, ff.ty);
-        container.x=s0.x; container.y=s0.y-(GLOBAL.tileH/2)*0.2;
-      }
-    }
+    const { tx, ty } = lastTile;
+    const s2 = tileToScreen(tx, ty);
+    container.x = s2.x;
+    container.y = s2.y - (GLOBAL.tileH / 2) * 0.2;
+
+    const ff = currentRoom.furniture.find(x => x.uid === container.uid);
+    if (ff) { ff.tx = tx; ff.ty = ty; }
+
+    sendWS({ type:'UPDATE_FURNITURE', room: currentRoom.name, uid: container.uid, tx, ty });
+
+    if (sprite) sprite.clearTint();
   });
 
   scene.furnitureLayer.add(container);
   furnitureGameObjects[container.uid] = container;
+
   return container;
 }
 
-function spawnFurnitureFromUI(proto) {
-  const uid = generateUID();
-  const defaultTx=Math.floor(currentRoom.cols/2);
-  const defaultTy=Math.floor(currentRoom.rows/2);
-  const model={ uid, proto_id: proto.id, tx: defaultTx, ty: defaultTy, color: proto.color };
-  currentRoom.furniture.push(model);
-  createFurnitureGO(sceneRef, model);
-  // persist to DB via CREATE_FURNITURE
-  sendWS({ type:'CREATE_FURNITURE', room: currentRoom.name, uid: model.uid, proto_id: model.proto_id, tx: model.tx, ty: model.ty, color: model.color });
-  log(`Spawned ${proto.id} as ${uid}`);
-}
-window.spawnFurnitureFromUI = spawnFurnitureFromUI;
-
-function spawnFurniture(scene, furnitureKey, x, y) {
-  const data = scene.cache.json.get('furniture');
-  if (!data || !data[furnitureKey]) {
-    console.warn(`Furniture "${furnitureKey}" not found in JSON`);
-    return;
-  }
-
-  const info = data[furnitureKey];
-  const sprite = scene.add.image(x, y, furnitureKey)
-    .setOrigin(0.5, 1)  // aligns bottom center (common for isometric style)
-    .setDepth(y)        // depth sorting by Y for overlap realism
-    .setInteractive({ useHandCursor: true });
-
-  sprite.meta = info;
-  sprite.on('pointerdown', () => {
-    console.log(`🪑 You clicked on ${furnitureKey}`);
-  });
-
-  return sprite;
-}
-
-
-// -------------- CAMERA --------------
 function centerCameraOnRoom(scene) {
   if (!currentRoom) return;
   const centerTile={ tx:Math.floor(currentRoom.cols/2), ty:Math.floor(currentRoom.rows/2) };
@@ -693,17 +759,13 @@ function handleWSMessage(msg) {
   if (!msg || !msg.type) return;
   switch(msg.type) {
     case 'ROOM_TEMPLATES':
-      // payload expected in msg.data as array
       if (Array.isArray(msg.data)) populateRoomButtons(msg.data);
       break;
     case 'ROOM_TEMPLATE':
-      // single template - not used directly here
       break;
     case 'ROOM_FURNITURE':
-      // request response for furniture: set currentRoom.furniture
       if (Array.isArray(msg.data)) {
         currentRoom.furniture = msg.data.map(f => {
-          // unify field naming
           return {
             id: f.id,
             name: f.name,
@@ -715,7 +777,6 @@ function handleWSMessage(msg) {
             interactable: f.interactable
           };
         });
-        // redraw
         if (sceneRef) {
           Object.values(furnitureGameObjects).forEach(go => go.destroy());
           Object.keys(furnitureGameObjects).forEach(k => delete furnitureGameObjects[k]);
@@ -724,7 +785,6 @@ function handleWSMessage(msg) {
       }
       break;
     case 'ROOM_STATE':
-      // server broadcasts full state for a room
       if (msg.room === currentRoom.name) {
         currentRoom.furniture = msg.furniture || [];
         Object.values(furnitureGameObjects).forEach(go => go.destroy());
@@ -746,7 +806,6 @@ function handleWSMessage(msg) {
           go.x = s.x; go.y = s.y - (GLOBAL.tileH/2) * 0.2;
         }
       } else {
-        // create a minimal model
         const model = {
           uid: f.uid || (`dbid_${f.id}`),
           id: f.id,
@@ -766,6 +825,3 @@ function handleWSMessage(msg) {
       break;
   }
 }
-
-// export spawn
-window.spawnFurnitureFromUI = spawnFurnitureFromUI;
