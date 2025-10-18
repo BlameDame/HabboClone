@@ -233,6 +233,8 @@ function sendChatMessage() {
   const input = document.getElementById('chat-input');
   const msg = input.value.trim();
   if (!msg) return;
+
+  input.value = '';
   
   console.log('Sending message:', msg);
   showChatBubble(msg, getPlayerScreenPos()  /*{ x: window.innerWidth / 2, y: window.innerHeight / 2 }*/);
@@ -241,18 +243,45 @@ function sendChatMessage() {
   } else {
     log('Not connected to server');
   }
-  
-  input.value = '';
-}
+  }
 
 function showChatBubble(text, pos) {
+  const sprite = players["You"] || currentPlayer;
+
+  const cam = sceneRef.cameras.main;
+  
+  // Get the actual sprite position in world space
+  const worldX = sprite.x;
+  const worldY = sprite.y;
+  
+  // Convert to screen space
+  const screenX = (worldX - cam.scrollX) * cam.zoom + cam.x;
+  const screenY = (worldY - cam.scrollY) * cam.zoom + cam.y;
+  
+  // Create bubble
   const bubble = document.createElement('div');
   bubble.className = 'chat-bubble';
   bubble.textContent = text;
   document.body.appendChild(bubble);
+  
+  // Position above sprite (no need for magic number now!)
+  // Account for game container offset
+  const gameContainer = document.getElementById('game-container');
+  const containerRect = gameContainer.getBoundingClientRect();
+  
+  bubble.style.left = (containerRect.left + screenX) + 'px';
+  bubble.style.top = (containerRect.top + screenY - 80) + 'px';
+  
+  console.log(`Chat bubble for ${username} at screen (${screenX}, ${screenY})`);
 
-  bubble.style.left = (pos.x + 290) + 'px'; // MAGIC NUMBER 290 // Adjust for game container offset
-  bubble.style.top = (pos.y) + 'px';
+
+  // const bubble = document.createElement('div');
+  // bubble.className = 'chat-bubble';
+  // bubble.textContent = text;
+  // document.body.appendChild(bubble);
+
+  // bubble.style.left = (pos.x + 290) + 'px'; // MAGIC NUMBER 290 // Adjust for game container offset
+  // bubble.style.top = (pos.y) + 'px';
   
   setTimeout(() => {
     bubble.remove();
@@ -292,10 +321,10 @@ function spawnPlayer(username, tx, ty) {
 
   const s = tileToScreen(tx, ty);
 
-  const sprite = sceneRef.add.sprite(s.x, s.y - 16, 'avatar_walk_right', 0);
-  sprite.setOrigin(0.5, 1);
+  const sprite = sceneRef.add.sprite(s.x, s.y, 'avatar_walk_right', 0);
+  sprite.setOrigin(0.5, 0.75);
   sprite.setScale(2);
-  sprite.setDepth(4);
+  sprite.setDepth(s.y);
   sprite.tx = tx;
   sprite.ty = ty;
   players[username] = sprite;
@@ -327,7 +356,8 @@ function movePlayer(username, tx, ty) {
   sprite.tx = tx;
   sprite.ty = ty;
 
-  currentPlayerPOS = { x: tx, y: ty };
+  if (username === "You")
+    currentPlayerPOS = { x: tx, y: ty };
 }
 
 // -------------- PHASER CONFIG --------------
@@ -362,7 +392,7 @@ function screenToTile(screenX, screenY) {
   const tx = (x / (w / 2) + y / (h / 2)) / 2;
   const ty = (y / (h / 2) - x / (w / 2)) / 2;
   
-  return { tx: Math.floor(tx), ty: Math.floor(ty) };
+  return { tx: Math.round(tx), ty: Math.round(ty) };
 }
 
 // -------------- PHASER SCENE --------------
