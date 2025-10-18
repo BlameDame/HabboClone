@@ -33,9 +33,19 @@ furniSearch.addEventListener('input', () => {
 });
 
 function populateFurnitureList(filter = '') {
-  if (!furnitureData) furnitureData = currentScene.cache.json.get('furniture');
+  // Load all furniture metadata once
+  if (!furnitureData) {
+    const furniture = currentScene.cache.json.get('furniture') || {};
+    const objects = currentScene.cache.json.get('objects') || {};
+    const walls = currentScene.cache.json.get('walls') || {};
+
+    // Merge all into one object
+    furnitureData = { ...furniture, ...objects, ...walls };
+  }
+
   if (!furnitureData) return;
 
+  // Clear list before repopulating
   furniList.innerHTML = '';
 
   for (const [key, info] of Object.entries(furnitureData)) {
@@ -46,7 +56,7 @@ function populateFurnitureList(filter = '') {
     img.title = key;
     img.style.cursor = 'grab';
 
-    // Proper drag and drop implementation
+    // Attach drag listener
     img.addEventListener('mousedown', (e) => {
       e.preventDefault();
       startFurnitureDrag(key, e);
@@ -55,6 +65,7 @@ function populateFurnitureList(filter = '') {
     furniList.appendChild(img);
   }
 }
+
 
 function startFurnitureDrag(protoId, mouseEvent) {
   if (!currentScene || isDraggingFurniture) return;
@@ -72,7 +83,7 @@ function startFurnitureDrag(protoId, mouseEvent) {
     proto_id: protoId, 
     tx: Math.max(0, Math.min(tx, currentRoom.cols - 1)), 
     ty: Math.max(0, Math.min(ty, currentRoom.rows - 1)), 
-    color: 0x78c 
+    // color: 0x78c 
   };
   
   ghostFurniture = createGhostFurniture(currentScene, model);
@@ -145,7 +156,14 @@ function createGhostFurniture(scene, model) {
   container.alpha = 0.7;
   
   if (scene.textures.exists(model.proto_id)) {
-    const sprite = scene.add.image(0, 0, model.proto_id).setOrigin(0.5, 1);
+    const sprite = scene.add.image(0, 0, model.proto_id).setOrigin(0.5, 0.75).setScale(2);
+    if (model.proto_id.includes('wall')){
+      sprite.setScale(4);
+      sprite.setAlpha(0.5);
+      sprite.setOrigin(0.5, 1);
+    } else if (model.proto_id.includes('bed')){
+      sprite.setScale(1.5);
+    }
     container.add(sprite);
   } else {
     const size = Math.max(20, GLOBAL.tileW * 0.6);
@@ -270,7 +288,7 @@ function showChatBubble(text, pos) {
   const containerRect = gameContainer.getBoundingClientRect();
   
   bubble.style.left = (containerRect.left + screenX) + 'px';
-  bubble.style.top = (containerRect.top + screenY - 80) + 'px';
+  bubble.style.top = (containerRect.top + screenY - 90) + 'px';
   
   console.log(`Chat bubble for ${username} at screen (${screenX}, ${screenY})`);
 
@@ -729,7 +747,12 @@ function createFurnitureGO(scene, f) {
 
   let sprite = null;
   if (scene.textures.exists(f.proto_id || f.name)) {
-    sprite = scene.add.image(0, 0, f.proto_id || f.name).setOrigin(0.5, 1);
+    sprite = scene.add.image(0, 0, f.proto_id || f.name).setOrigin(0.5, 0.75).setScale(2);
+    if (f.proto_id.includes('wall')){
+      sprite.setScale(4);
+    } else if (f.proto_id.includes('bed')){
+      sprite.setScale(1.5);
+    }
     container.add(sprite);
   } else {
     const size = Math.max(20, GLOBAL.tileW * 0.6);
