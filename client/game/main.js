@@ -160,7 +160,7 @@ function createGhostFurniture(scene, model) {
     if (model.proto_id.includes('wall')){
       sprite.setScale(4);
       sprite.setAlpha(0.5);
-      sprite.setOrigin(0.5, 1);
+      sprite.setOrigin(0.4, 0.9);
     } else if (model.proto_id.includes('bed')){
       sprite.setScale(1.5);
     }
@@ -456,7 +456,7 @@ async function create() {
     const templates = await requestWS({ type: 'GET_ROOM_TEMPLATES' });
     populateRoomButtons(templates || []);
     if (templates && templates.length > 0) {
-      loadRoomTemplate(templates[2].id);
+      loadRoomTemplate(templates[0].id);
     }
   } catch (e) {
     log('Failed to load room templates: ' + e);
@@ -724,7 +724,7 @@ function drawRoomWalls(scene) {
       g.fillStyle(0xffffff,1);
       g.fillRect(s.x-w/4, s.y-h-(h/4), w/2, h/2+6);
       g.lineStyle(1,0x000000,0.15);
-      g.strokeRect(s.x-w/4, s.y-h-(h/4), w/2, h/2+6);
+      g.strokeRect(s.x-w/4, s.y-h-(h/4), w/2, h/2+6);      
       scene.roomLayer.add(g);
     }
   }
@@ -750,6 +750,9 @@ function createFurnitureGO(scene, f) {
     sprite = scene.add.image(0, 0, f.proto_id || f.name).setOrigin(0.5, 0.75).setScale(2);
     if (f.proto_id.includes('wall')){
       sprite.setScale(4);
+      sprite.setOrigin(0.4, 0.9);
+      sprite.setImmovable(true);
+      this.physics.add.collider(sprite, currentPlayer);
     } else if (f.proto_id.includes('bed')){
       sprite.setScale(1.5);
     }
