@@ -5,8 +5,28 @@ const GLOBAL = {
   tileW: 64,
   tileH: 32,
   originX: 0,
-  originY: 0
+  originY: 0,
+  wallColliders: [],
+  activeBubbles: {}
 };
+
+// -------------- PHASER CONFIG --------------
+const phaserConfig = {
+  type: Phaser.AUTO,
+  parent: 'game-container',
+  width: window.innerWidth - 260,
+  height: window.innerHeight,
+  backgroundColor: '#1e1e1e',
+  physics: { 
+    default: 'arcade', 
+    arcade: { 
+      debug: false,
+      gravity: { y: 0  }
+    } 
+  },
+  scene: { preload, create, update }
+};
+const game = new Phaser.Game(phaserConfig);
 
 const WS_URL = "ws://localhost:9001";
 let sceneRef = null;
@@ -265,6 +285,7 @@ function sendChatMessage() {
 
 function showChatBubble(text, pos) {
   const sprite = players["You"] || currentPlayer;
+  if (!sprite || !sceneRef) return;
 
   const cam = sceneRef.cameras.main;
   
@@ -275,34 +296,49 @@ function showChatBubble(text, pos) {
   // Convert to screen space
   const screenX = (worldX - cam.scrollX) * cam.zoom + cam.x;
   const screenY = (worldY - cam.scrollY) * cam.zoom + cam.y;
+
+  if (!GLOBAL.activeBubbles["You"]) {
+    GLOBAL.activeBubbles["You"] = [];
+  }
   
-  // Create bubble
+  const existingBubbles = GLOBAL.activeBubbles["You"];
+  let yOffset = 90;
+
+  existingBubbles.forEach(bubbleData => {
+    if (bubbleData.element && document.body.contains(bubbleData.element)){
+      yOffset += bubbleData.element.offsetHeight + 5;
+    }
+  });
+
   const bubble = document.createElement('div');
   bubble.className = 'chat-bubble';
   bubble.textContent = text;
   document.body.appendChild(bubble);
   
-  // Position above sprite (no need for magic number now!)
-  // Account for game container offset
   const gameContainer = document.getElementById('game-container');
   const containerRect = gameContainer.getBoundingClientRect();
   
   bubble.style.left = (containerRect.left + screenX) + 'px';
   bubble.style.top = (containerRect.top + screenY - 90) + 'px';
   
-  console.log(`Chat bubble for ${username} at screen (${screenX}, ${screenY})`);
+  const bubbleData = {
+    element: bubble,
+    username: "You",
+    createdAt: Date.now(),
+  };
+  existingBubbles.unshift(bubbleData);
 
-
-  // const bubble = document.createElement('div');
-  // bubble.className = 'chat-bubble';
-  // bubble.textContent = text;
-  // document.body.appendChild(bubble);
-
-  // bubble.style.left = (pos.x + 290) + 'px'; // MAGIC NUMBER 290 // Adjust for game container offset
-  // bubble.style.top = (pos.y) + 'px';
+  // console.log(`Chat bubble for ${username} at screen (${screenX}, ${screenY})`);
   
   setTimeout(() => {
     bubble.remove();
+
+    const index = existingBubbles.indexOf(bubbleData);
+    if (index > -1){
+      existingBubbles.splice(index, 1);
+    }
+
+    // repositionBubbles("You");
   }, 4000);
   
 }
@@ -322,6 +358,66 @@ function displayPlainChatMessage(raw) {
   showChatBubble(`${username}: ${message}`, pos);
 }
 
+function repositionBubbles(username) {
+  if (!GLOBAL.activeBubbles[username]) return;
+  
+  const sprite = players[username] || currentPlayer;
+  if (!sprite) return;
+  
+  const cam = sceneRef.cameras.main;
+  const worldX = sprite.x;
+  const worldY = sprite.y;
+  const screenX = (worldX - cam.scrollX) * cam.zoom + cam.x;
+  const screenY = (worldY - cam.scrollY) * cam.zoom + cam.y;
+  
+  const gameContainer = document.getElementById('game-container');
+  const containerRect = gameContainer.getBoundingClientRect();
+  
+  let yOffset = 90;
+  
+  GLOBAL.activeBubbles[username].forEach((bubbleData, index) => {
+    if (bubbleData.element && document.body.contains(bubbleData.element)) {
+      // Smoothly transition to new position
+      bubbleData.element.style.transition = 'top 0.3s ease';
+      bubbleData.element.style.left = (containerRect.left + screenX) + 'px';
+      bubbleData.element.style.top = (containerRect.top + screenY - yOffset) + 'px';
+      
+      yOffset += bubbleData.element.offsetHeight + 5;
+    }
+  });
+}
+
+function updateBubblePositions() {
+  if (!sceneRef || !sceneRef.cameras || !sceneRef.cameras.main) return;
+  
+  const cam = sceneRef.cameras.main;
+  const gameContainer = document.getElementById('game-container');
+  if (!gameContainer) return;
+  
+  const containerRect = gameContainer.getBoundingClientRect();
+  
+  Object.keys(GLOBAL.activeBubbles).forEach(username => {
+    const sprite = players[username] || (username === "You" ? currentPlayer : null);
+    if (!sprite) return;
+    
+    const worldX = sprite.x;
+    const worldY = sprite.y;
+    const screenX = (worldX - cam.scrollX) * cam.zoom + cam.x;
+    const screenY = (worldY - cam.scrollY) * cam.zoom + cam.y;
+    
+    let yOffset = 90;
+    
+    GLOBAL.activeBubbles[username].forEach(bubbleData => {
+      if (bubbleData.element && document.body.contains(bubbleData.element)) {
+        bubbleData.element.style.left = (containerRect.left + screenX) + 'px';
+        bubbleData.element.style.top = (containerRect.top + screenY - yOffset) + 'px';
+        yOffset += bubbleData.element.offsetHeight + 5;
+      }
+    });
+  });
+  repositionBubbles("You");
+}
+
 function getPlayerScreenPos(username) {
   const sprite = players[username];
   if (sprite) {
@@ -339,33 +435,72 @@ function spawnPlayer(username, tx, ty) {
 
   const s = tileToScreen(tx, ty);
 
-  const sprite = sceneRef.add.sprite(s.x, s.y, 'avatar_walk_right', 0);
+  // CHANGED: Use physics.add.sprite instead of add.sprite
+  const sprite = sceneRef.physics.add.sprite(s.x, s.y, 'avatar_walk_right', 0);
   sprite.setOrigin(0.5, 0.75);
   sprite.setScale(2);
   sprite.setDepth(s.y);
   sprite.tx = tx;
   sprite.ty = ty;
+  
+  // ADD: Set up physics body (only for "You", the main player)
+  // if (username === "You") {
+  //   sprite.body.setSize(20, 20); // Collision box size
+  //   sprite.body.setOffset(22, 40); // Offset to match sprite feet
+    
+  //   // Add collision with walls
+  //   if (sceneRef.wallGroup) {
+  //     sceneRef.physics.add.collider(sprite, sceneRef.wallGroup);
+  //   }
+    
+    currentPlayer = sprite;
+  // }
+  
   players[username] = sprite;
-
-  if (username === "You") currentPlayer = sprite;
-}
-
-function removePlayer(username) {
-  if (players[username]) {
-    players[username].destroy();
-    delete players[username];
-  }
 }
 
 function movePlayer(username, tx, ty) {
   const sprite = players[username];
   if (!sprite) return;
 
-  const s = tileToScreen(tx, ty);
-  sceneRef.tweens.add({
+  if (!insideRoom(tx, ty)) {
+    log(`Cannot move ${username} to (${tx}, ${ty}) - outside room bounds.`);
+    return;
+  }
+
+  const targetPos = tileToScreen(tx, ty);
+  const isWallBlocking = GLOBAL.wallColliders.some(wall =>{
+    return wall.tx === tx && wall.ty === ty;
+  });
+
+  if (isWallBlocking) {
+    log(`wall blocking.`);
+    return;
+  }
+
+// if (username === "You" && currentPlayer) {
+//     // Use physics body movement for smooth collision
+//     sceneRef.physics.moveTo(
+//       currentPlayer, 
+//       targetPos.x, 
+//       targetPos.y - 16, 
+//       200 // speed
+//     );
+    
+//     // Stop after reaching destination
+//     sceneRef.time.delayedCall(1200, () => {
+//       if (currentPlayer.body) {
+//         currentPlayer.body.setVelocity(0, 0);
+//         currentPlayer.stop().setFrame(0);
+//       }
+//     });
+    
+//     currentPlayer.play('walk', true);
+  // } else {  
+    sceneRef.tweens.add({
     targets: sprite,
-    x: s.x,
-    y: s.y - 16,
+    x: targetPos.x,
+    y: targetPos.y - 16,
     duration: 400,
     onStart: () => sprite.play('walk', true),
     onComplete: () => sprite.stop().setFrame(0)
@@ -374,22 +509,17 @@ function movePlayer(username, tx, ty) {
   sprite.tx = tx;
   sprite.ty = ty;
 
-  if (username === "You")
+   if (username === "You")
     currentPlayerPOS = { x: tx, y: ty };
+  // }
 }
 
-// -------------- PHASER CONFIG --------------
-const phaserConfig = {
-  type: Phaser.AUTO,
-  parent: 'game-container',
-  width: window.innerWidth - 260,
-  height: window.innerHeight,
-  backgroundColor: '#1e1e1e',
-  physics: { default: 'arcade', arcade: { debug: false } },
-  scene: { preload, create, update }
-};
-
-const game = new Phaser.Game(phaserConfig);
+function removePlayer(username) {
+  if (players[username]) {
+    players[username].destroy();
+    delete players[username];
+  }
+}
 
 // -------------- ISOMETRIC HELPERS (FIXED) --------------
 function tileToScreen(tx, ty) {
@@ -426,37 +556,39 @@ function preload() {
 }
 
 async function create() {
-  sceneRef = this;
-  window.gameScene = this;
-  currentScene = this;
 
   initBottomUI();
   initChatSystem();
 
-  connectWebSocket();
-
+  sceneRef = this;
+  window.gameScene = this;
+  currentScene = this;
   const categories = ['furniture', 'objects', 'walls', 'avatar'];
 
   categories.forEach(category => {
     const data = this.cache.json.get(category);
     if (!data) return;
-
+    
     for (const [key, info] of Object.entries(data)) {
       this.load.image(key, `assets/${info.sprite}`);
     }
   });
 
+  this.wallGroup = this.physics.add.staticGroup();
+  
   this.load.once('complete', () => {
     console.log("✅ All furniture and assets loaded!");
   });
 
   this.load.start();
 
+  await connectWebSocket();
+
   try {
     const templates = await requestWS({ type: 'GET_ROOM_TEMPLATES' });
     populateRoomButtons(templates || []);
     if (templates && templates.length > 0) {
-      loadRoomTemplate(templates[0].id);
+      loadRoomTemplate(templates[2].id);
     }
   } catch (e) {
     log('Failed to load room templates: ' + e);
@@ -514,7 +646,10 @@ async function joinRoom(roomName) {
   drawRoom();
 }
 
-function update(time, dt) {}
+function update(time, dt) {
+  // Update logic if needed
+  updateBubblePositions();
+}
 
 // -------------- WEBSOCKET --------------
 function connectWebSocket() {
@@ -532,8 +667,12 @@ function connectWebSocket() {
 
     ws.onopen = () => {
       log('WebSocket connected');
-      // ws.send("/join Lobby"); // also join for chat
-      spawnPlayer("You", 3, 7);
+      if(sceneRef && sceneRef.textures.exists('avatar_walk_right')){
+        spawnPlayer("You", 3, 7);
+        log('Spawned player avatar.');
+      } else {
+        log('Avatar texture not loaded yet.');
+      }
 
       joinRoom("Lobby");
 
@@ -658,7 +797,7 @@ async function loadRoomTemplate(roomId) {
     log('Failed to load room template: ' + e);
   }
 
-  if (!ws || ws.readyState !== WebSocket.OPEN) connectWebSocket();
+  if (!ws || ws.readyState !== WebSocket.OPEN) return;
 }
 
 function insideRoom(tx, ty) {
@@ -677,8 +816,14 @@ function insideRoom(tx, ty) {
 // -------------- DRAW ROOM --------------
 function drawRoom() {
   if (!sceneRef || !currentRoom) return;
+
   if (sceneRef.roomLayer) sceneRef.roomLayer.destroy(true);
   if (sceneRef.furnitureLayer) sceneRef.furnitureLayer.destroy(true);
+
+  if (sceneRef.wallGroup) {
+    sceneRef.wallGroup.clear(true, true);
+  }
+  GLOBAL.wallColliders = [];
 
   sceneRef.roomLayer = sceneRef.add.layer();
   sceneRef.furnitureLayer = sceneRef.add.layer();
@@ -714,6 +859,12 @@ function drawIsoTile(scene, cx, cy, w, h, color=0x8B4513) {
 
 function drawRoomWalls(scene) {
   const w = GLOBAL.tileW, h = GLOBAL.tileH;
+
+  if (scene.wallGroup) {
+    scene.wallGroup.clear(true, true);
+  }
+  GLOBAL.wallColliders = [];
+
   for (let tx=0; tx<currentRoom.cols; tx++) {
     for (let ty=0; ty<currentRoom.rows; ty++) {
       if (!insideRoom(tx, ty)) continue;
@@ -726,8 +877,30 @@ function drawRoomWalls(scene) {
       g.lineStyle(1,0x000000,0.15);
       g.strokeRect(s.x-w/4, s.y-h-(h/4), w/2, h/2+6);      
       scene.roomLayer.add(g);
+
+      const wallCollider = scene.add.rectangle(
+        s.x,
+        s.y - h/2,
+        w/2,
+        h/2,
+        0xff0000,
+        0.3
+      );
+
+      scene.physics.add.existing(wallCollider, true);
+      scene.wallGroup.add(wallCollider);
+      GLOBAL.wallColliders.push({
+        tx, ty,
+        body: wallCollider,
+        bounds: wallCollider.getBounds()
+      });
     }
   }
+
+  if (currentPlayer) {
+    scene.physics.add.collider(currentPlayer, scene.wallGroup);
+  }
+
 }
 
 // -------------- FURNITURE --------------
@@ -746,13 +919,20 @@ function createFurnitureGO(scene, f) {
   container.protoId = f.proto_id || f.name;
 
   let sprite = null;
+  let collisionBody = null;
+
   if (scene.textures.exists(f.proto_id || f.name)) {
     sprite = scene.add.image(0, 0, f.proto_id || f.name).setOrigin(0.5, 0.75).setScale(2);
-    if (f.proto_id.includes('wall')){
+    if ((f.proto_id || f.name).includes('wall')){
       sprite.setScale(4);
       sprite.setOrigin(0.4, 0.9);
-      sprite.setImmovable(true);
-      this.physics.add.collider(sprite, currentPlayer);
+
+      collisionBody = scene.add.rectangle(s.x, s.y, GLOBAL.tileW * 0.8, GLOBAL.tileH * 0.8, 0xff0000, 0.3);
+      scene.physics.add.existing(collisionBody, true);
+      scene.wallGroup.add(collisionBody);
+
+      container.collisionBody = collisionBody;
+
     } else if (f.proto_id.includes('bed')){
       sprite.setScale(1.5);
     }
@@ -779,6 +959,11 @@ function createFurnitureGO(scene, f) {
       const s2 = tileToScreen(tx, ty);
       container.x = s2.x;
       container.y = s2.y - (GLOBAL.tileH / 2) * 0.2;
+      if (collisionBody) {
+        collisionBody.x = s2.x;
+        collisionBody.y = s2.y;
+      }
+
       lastTile = { tx, ty };
     }
   });
@@ -788,6 +973,12 @@ function createFurnitureGO(scene, f) {
     const s2 = tileToScreen(tx, ty);
     container.x = s2.x;
     container.y = s2.y - (GLOBAL.tileH / 2) * 0.2;
+
+    if (collisionBody) {
+      collisionBody.x = s2.x;
+      collisionBody.y = s2.y;
+      collisionBody.body.updateFromGameObject();
+    }
 
     const ff = currentRoom.furniture.find(x => x.uid === container.uid);
     if (ff) { ff.tx = tx; ff.ty = ty; }
